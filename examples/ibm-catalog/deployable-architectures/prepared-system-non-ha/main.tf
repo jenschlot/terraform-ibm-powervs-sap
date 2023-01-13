@@ -100,7 +100,7 @@ locals {
 
 
 module "sap_systems" {
-  source                         = "../../../"
+  source                         = "../../../../"
   powervs_zone                   = var.powervs_zone
   powervs_resource_group_name    = local.powervs_resource_group_name
   powervs_workspace_name         = local.powervs_workspace_name

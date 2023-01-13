@@ -114,8 +114,8 @@ statement instead the previous block.
 ## Examples
 
 - [ Basic PowerVS SAP system Module Example](examples/basic)
-- [ PowerVS SAP system example to create SAP prepared PowerVS instances from IBM Cloud Catalog](examples/ibm-catalog/prepared-system-solution)
-- [ PowerVS SAP system example to create SAP prepared PowerVS instances](examples/prepared-system)
+- [ PowerVS SAP system example to create SAP prepared PowerVS instances from IBM Cloud Catalog](examples/ibm-catalog/deployable-architectures/prepared-system-non-ha)
+- [ PowerVS SAP system example to create SAP prepared PowerVS instances](examples/prepared-system-non-ha)
 <!-- END EXAMPLES HOOK -->
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

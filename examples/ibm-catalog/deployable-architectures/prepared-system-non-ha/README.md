@@ -21,7 +21,7 @@ The PowerVS SAP system example automates the following tasks:
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_sap_systems"></a> [sap\_systems](#module\_sap\_systems) | ../../../ | n/a |
+| <a name="module_sap_systems"></a> [sap\_systems](#module\_sap\_systems) | ../../../../ | n/a |
 
 ## Resources
 
