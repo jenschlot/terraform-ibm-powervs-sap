@@ -115,6 +115,7 @@ statement instead the previous block.
 
 - [ Basic PowerVS SAP system Module Example](examples/basic)
 - [ PowerVS SAP system example to create SAP prepared PowerVS instances from IBM Cloud Catalog](examples/ibm-catalog/deployable-architectures/prepared-system-non-ha)
+- [ PowerVS SAP system example to create SAP prepared PowerVS instances from IBM Cloud Catalog](examples/ibm-catalog/deployable-architectures/s4hana-non-ha)
 - [ PowerVS SAP system example to create SAP prepared PowerVS instances](examples/prepared-system-non-ha)
 <!-- END EXAMPLES HOOK -->
 
