@@ -56,6 +56,8 @@ locals {
   powervs_netweaver_memory_size          = var.sap_netweaver_instance_config["memory_size"] != null && var.sap_netweaver_instance_config["memory_size"] != "" ? var.sap_netweaver_instance_config["memory_size"] : var.sap_netweaver_memory_size
   powervs_netweaver_cpu_proc_type        = var.sap_netweaver_instance_config["cpu_proc_type"] != null && var.sap_netweaver_instance_config["cpu_proc_type"] != "" ? var.sap_netweaver_instance_config["cpu_proc_type"] : local.def_netweaver_cpu_proc_type
   powervs_netweaver_server_type          = var.sap_netweaver_instance_config["server_type"] != null && var.sap_netweaver_instance_config["server_type"] != "" ? var.sap_netweaver_instance_config["server_type"] : local.def_netweaver_server_type
+
+  cos_config = merge(var.cos_config, { "target_folder_path_local" = var.nfs_client_directory })
 }
 
 
@@ -108,4 +110,5 @@ module "sap_systems" {
   nfs_path              = var.nfs_path
   nfs_client_directory  = var.nfs_client_directory
   sap_domain            = var.sap_domain
+  cos_config            = local.cos_config
 }

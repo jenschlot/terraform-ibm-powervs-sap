@@ -6,6 +6,7 @@
       "type": "string",
       "description": "Public IP of Bastion/jumpserver Host",
       "source": [
+        "module.cos_sap_download",
         "module.instance_init"
       ],
       "pos": {
@@ -25,6 +26,26 @@
       "pos": {
         "filename": "variables.tf",
         "line": 225
+      }
+    },
+    "cos_config": {
+      "name": "cos_config",
+      "type": "object(\n    {\n      cos_bucket_name          = string\n      cos_access_key           = string\n      cos_secret_access_key    = string\n      cos_endpoint_url         = string\n      cos_source_folder_path   = string\n      target_folder_path_local = string\n    }\n  )",
+      "description": "COS bucket access information to copy the software to LOCAL DISK",
+      "default": {
+        "cos_access_key": "",
+        "cos_bucket_name": "",
+        "cos_endpoint_url": "",
+        "cos_secret_access_key": "",
+        "cos_source_folder_path": "",
+        "target_folder_path_local": ""
+      },
+      "source": [
+        "module.cos_sap_download"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 285
       }
     },
     "dns_host_or_ip": {
@@ -52,6 +73,10 @@
       "type": "string",
       "description": "Full path on NFS server (in form \u003chostname_or_ip\u003e:\u003cdirectory\u003e, e.g., '10.20.10.4:/nfs').",
       "default": "",
+      "source": [
+        "module.cos_sap_download",
+        "module.cos_sap_download"
+      ],
       "pos": {
         "filename": "variables.tf",
         "line": 267
@@ -525,6 +550,7 @@
       "description": "Private SSH key used to login to IBM PowerVS instances. Should match to uploaded public SSH key referenced by 'powervs_sshkey_name'.",
       "sensitive": true,
       "source": [
+        "module.cos_sap_download",
         "module.instance_init"
       ],
       "pos": {
@@ -689,6 +715,36 @@
       "pos": {
         "filename": "main.tf",
         "line": 24
+      }
+    },
+    "cos_sap_download": {
+      "name": "cos_sap_download",
+      "source": "./submodules/cos_sap_download",
+      "attributes": {
+        "access_host_or_ip": "access_host_or_ip",
+        "cos_config": "cos_config",
+        "count": "nfs_path",
+        "host_ip": "nfs_path",
+        "ssh_private_key": "ssh_private_key"
+      },
+      "managed_resources": {
+        "null_resource.cos_config_download_sap": {
+          "mode": "managed",
+          "type": "null_resource",
+          "name": "cos_config_download_sap",
+          "provider": {
+            "name": "null"
+          },
+          "pos": {
+            "filename": "submodules/cos_sap_download/main.tf",
+            "line": 5
+          }
+        }
+      },
+      "data_resources": {},
+      "pos": {
+        "filename": "main.tf",
+        "line": 168
       }
     },
     "create_sap_network": {

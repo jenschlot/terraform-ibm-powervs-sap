@@ -104,13 +104,13 @@ variable "sap_netweaver_hostname" {
 variable "sap_netweaver_cpu_number" {
   description = "Number of CPUs for each SAP NetWeaver instance."
   type        = string
-  default     = "0.5"
+  default     = "3"
 }
 
 variable "sap_netweaver_memory_size" {
   description = "Memory size for each SAP NetWeaver instance."
   type        = string
-  default     = "4"
+  default     = "32"
 }
 
 #####################################################

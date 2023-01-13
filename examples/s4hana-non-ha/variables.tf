@@ -84,7 +84,7 @@ variable "sap_hana_hostname" {
 variable "sap_hana_profile" {
   description = "SAP HANA profile to use. Must be one of the supported profiles. See [here](https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-power-vs). File system sizes are automatically calculated. Override automatic calculation by setting values in optional sap_hana_custom_storage_config parameter."
   type        = string
-  default     = "cnp-2x64"
+  default     = "cnp-4x128"
 }
 
 variable "sap_hana_additional_storage_config" {
@@ -173,6 +173,19 @@ variable "nfs_path" {
 variable "nfs_client_directory" {
   description = "NFS directory on PowerVS instances. Will be used only if nfs_server is setup in 'Power infrastructure for regulated industries'. Set to null or empty if not configuring OS."
   type        = string
+}
+
+variable "cos_config" {
+  description = "COS bucket access information to copy the SAP Software to LOCAL DISK."
+  type = object(
+    {
+      cos_bucket_name        = string
+      cos_access_key         = string
+      cos_secret_access_key  = string
+      cos_endpoint_url       = string
+      cos_source_folder_path = string
+    }
+  )
 }
 
 #####################################################

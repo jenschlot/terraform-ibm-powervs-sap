@@ -164,3 +164,15 @@ module "instance_init" {
   perform_dns_client_setup         = local.perform_dns_client_setup
   sap_domain                       = var.sap_domain
 }
+
+module "cos_sap_download" {
+
+  source     = "./submodules/cos_sap_download"
+  depends_on = [module.instance_init]
+  count      = var.nfs_path != null && var.nfs_path != "" && var.cos_config["cos_access_key"] != "" && var.cos_config["cos_access_key"] != null ? 1 : 0
+
+  access_host_or_ip = var.access_host_or_ip
+  host_ip           = split(":", var.nfs_path)[0]
+  ssh_private_key   = var.ssh_private_key
+  cos_config        = var.cos_config
+}
