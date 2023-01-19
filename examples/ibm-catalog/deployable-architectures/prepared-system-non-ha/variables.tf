@@ -10,7 +10,7 @@ variable "prerequisite_workspace_id" {
 }
 
 variable "powervs_zone" {
-  description = "IBM Cloud data center location where IBM PowerVS infrastructure will be created."
+  description = "IBM Cloud data center location where IBM PowerVS infrastructure exists."
   type        = string
 }
 
@@ -38,7 +38,7 @@ variable "powervs_sap_network_cidr" {
 variable "os_image_distro" {
   description = "Image distribution to use. Supported values are 'SLES' or 'RHEL'. OS release versions may be specified in optional parameters."
   type        = string
-  default     = "SLES"
+  default     = "RHEL"
 }
 
 #####################################################
@@ -64,7 +64,7 @@ variable "sap_hana_hostname" {
 variable "sap_hana_profile" {
   description = "SAP HANA profile to use. Must be one of the supported profiles. See [here](https://cloud.ibm.com/docs/sap?topic=sap-hana-iaas-offerings-profiles-power-vs). File system sizes are automatically calculated. Override automatic calculation by setting values in optional sap_hana_custom_storage_config parameter."
   type        = string
-  default     = "cnp-2x64"
+  default     = "cnp-4x128"
 }
 
 variable "sap_hana_additional_storage_config" {
@@ -194,7 +194,7 @@ variable "sap_share_instance_config" {
 }
 
 variable "sap_share_storage_config" {
-  description = "File systems to be created and attached to PowerVS instance for shared storage file systems. 'disk_sizes' are in GB. 'count' specify over how many sotrage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS workspace. For creating multiple file systems, specify multiple entries in each parameter in the structure. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths."
+  description = "File systems to be created and attached to PowerVS instance for shared storage file systems. 'disk_sizes' are in GB. 'count' specify over how many storage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS workspace. For creating multiple file systems, specify multiple entries in each parameter in the structure. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths."
   type = object({
     names      = string
     disks_size = string
@@ -262,7 +262,7 @@ variable "sap_netweaver_instance_config" {
 }
 
 variable "sap_netweaver_storage_config" {
-  description = "File systems to be created and attached to PowerVS instance for SAP NetWeaver. 'disk_sizes' are in GB. 'count' specify over how many sotrage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS workspace. For creating multiple file systems, specify multiple entries in each parameter in the structure. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths."
+  description = "File systems to be created and attached to PowerVS instance for SAP NetWeaver. 'disk_sizes' are in GB. 'count' specify over how many storage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS workspace. For creating multiple file systems, specify multiple entries in each parameter in the structure. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths."
   type = object({
     names      = string
     disks_size = string

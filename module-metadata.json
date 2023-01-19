@@ -32,7 +32,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 308
+        "line": 312
       }
     },
     "configure_os": {
@@ -66,13 +66,13 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 285
+        "line": 289
       }
     },
     "dns_host_or_ip": {
       "name": "dns_host_or_ip",
       "type": "string",
-      "description": "DNS forwarder/server hosname or IP address. E.g., 10.10.10.6",
+      "description": "DNS forwarder/server hostname or IP address. E.g., 10.10.10.6",
       "default": "",
       "pos": {
         "filename": "variables.tf",
@@ -106,7 +106,7 @@
     "ntp_host_or_ip": {
       "name": "ntp_host_or_ip",
       "type": "string",
-      "description": "NTP forwarder/server hosname or IP address. E.g., 10.10.10.7",
+      "description": "NTP forwarder/server hostname or IP address. E.g., 10.10.10.7",
       "default": "",
       "pos": {
         "filename": "variables.tf",
@@ -545,7 +545,7 @@
     "proxy_host_or_ip_port": {
       "name": "proxy_host_or_ip_port",
       "type": "string",
-      "description": "Proxy hosname or IP address with port. E.g., 10.10.10.4:3128 \u003cip:port\u003e",
+      "description": "Proxy hostname or IP address with port. E.g., 10.10.10.4:3128 \u003cip:port\u003e",
       "default": "",
       "pos": {
         "filename": "variables.tf",

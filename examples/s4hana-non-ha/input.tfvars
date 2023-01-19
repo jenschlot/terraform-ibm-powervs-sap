@@ -1,4 +1,4 @@
-#### Exisiting power workspace parmeters from sap infra output ####
+#### Existing power workspace parmeters from sap infra output ####
 ibmcloud_api_key            = "<value>"
 access_host_or_ip           = "<value>"
 cloud_connection_count      = 2
@@ -44,6 +44,14 @@ cos_config = {
   cos_secret_access_key  = "<value>"
   cos_endpoint_url       = "<value>" #https://s3.eu.cloud-object-storage.appdomain.cloud/
   cos_source_folder_path = "<value>" # empty when you want to copy everythimg from root.
+}
+
+ansible_sap_hana_install = {
+  enable             = true
+  software_directory = "<value>" #"/nfs/HANA/v59"
+  master_password    = "<value>"
+  sid                = "<value>" #"HDB"
+  instance_number    = "<value>" #"00"
 }
 
 ##### OS initilization parameters #####

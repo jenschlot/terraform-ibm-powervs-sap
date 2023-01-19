@@ -117,6 +117,7 @@ statement instead the previous block.
 
 - [ Basic PowerVS SAP system Module Example](examples/basic)
 - [ PowerVS SAP system example to create SAP prepared PowerVS instances from IBM Cloud Catalog](examples/ibm-catalog/deployable-architectures/prepared-system-non-ha)
+- [ PowerVS SAP system example to create SAP S4HANA SYSTEM](examples/ibm-catalog/deployable-architectures/s4hana-non-ha)
 - [ PowerVS SAP system example to create SAP prepared PowerVS instances](examples/prepared-system-non-ha)
 - [ PowerVS SAP system example to create SAP prepared PowerVS instances](examples/s4hana-non-ha)
 <!-- END EXAMPLES HOOK -->
@@ -155,10 +156,10 @@ No resources.
 | <a name="input_ansible_sap_hana_install"></a> [ansible\_sap\_hana\_install](#input\_ansible\_sap\_hana\_install) | HANA Installation parameters | <pre>object(<br>    {<br>      enable             = bool<br>      software_directory = string<br>      master_password    = string<br>      sid                = string<br>      instance_number    = string<br>    }<br>  )</pre> | <pre>{<br>  "enable": false,<br>  "instance_number": "00",<br>  "master_password": "NewPass$321",<br>  "sid": "HDB",<br>  "software_directory": "/nfs/HANA/v59"<br>}</pre> | no |
 | <a name="input_configure_os"></a> [configure\_os](#input\_configure\_os) | Specify if OS on PowerVS instances should be configured for SAP or if only PowerVS instances should be created. | `bool` | `true` | no |
 | <a name="input_cos_config"></a> [cos\_config](#input\_cos\_config) | COS bucket access information to copy the software to LOCAL DISK | <pre>object(<br>    {<br>      cos_bucket_name          = string<br>      cos_access_key           = string<br>      cos_secret_access_key    = string<br>      cos_endpoint_url         = string<br>      cos_source_folder_path   = string<br>      target_folder_path_local = string<br>    }<br>  )</pre> | <pre>{<br>  "cos_access_key": "",<br>  "cos_bucket_name": "",<br>  "cos_endpoint_url": "",<br>  "cos_secret_access_key": "",<br>  "cos_source_folder_path": "",<br>  "target_folder_path_local": ""<br>}</pre> | no |
-| <a name="input_dns_host_or_ip"></a> [dns\_host\_or\_ip](#input\_dns\_host\_or\_ip) | DNS forwarder/server hosname or IP address. E.g., 10.10.10.6 | `string` | `""` | no |
+| <a name="input_dns_host_or_ip"></a> [dns\_host\_or\_ip](#input\_dns\_host\_or\_ip) | DNS forwarder/server hostname or IP address. E.g., 10.10.10.6 | `string` | `""` | no |
 | <a name="input_nfs_client_directory"></a> [nfs\_client\_directory](#input\_nfs\_client\_directory) | NFS directory on PowerVS instances. Will be used only if nfs\_server is setup in 'Power infrastructure for regulated industries' | `string` | `"/nfs"` | no |
 | <a name="input_nfs_path"></a> [nfs\_path](#input\_nfs\_path) | Full path on NFS server (in form <hostname\_or\_ip>:<directory>, e.g., '10.20.10.4:/nfs'). | `string` | `""` | no |
-| <a name="input_ntp_host_or_ip"></a> [ntp\_host\_or\_ip](#input\_ntp\_host\_or\_ip) | NTP forwarder/server hosname or IP address. E.g., 10.10.10.7 | `string` | `""` | no |
+| <a name="input_ntp_host_or_ip"></a> [ntp\_host\_or\_ip](#input\_ntp\_host\_or\_ip) | NTP forwarder/server hostname or IP address. E.g., 10.10.10.7 | `string` | `""` | no |
 | <a name="input_os_image_distro"></a> [os\_image\_distro](#input\_os\_image\_distro) | Image distribution to use for all instances(Shared, HANA, Netweaver). Supported values are 'SLES' or 'RHEL'. OS release versions may be specified in optional parameters. | `string` | n/a | yes |
 | <a name="input_powervs_additional_networks"></a> [powervs\_additional\_networks](#input\_powervs\_additional\_networks) | Existing list of subnets name to be attached to an instance. First network has to be a management network. | `list(any)` | n/a | yes |
 | <a name="input_powervs_cloud_connection_count"></a> [powervs\_cloud\_connection\_count](#input\_powervs\_cloud\_connection\_count) | Existing number of Cloud connections to which new subnet must be attached. | `string` | `2` | no |
@@ -188,7 +189,7 @@ No resources.
 | <a name="input_powervs_sshkey_name"></a> [powervs\_sshkey\_name](#input\_powervs\_sshkey\_name) | Existing PowerVs SSH key name. | `string` | n/a | yes |
 | <a name="input_powervs_workspace_name"></a> [powervs\_workspace\_name](#input\_powervs\_workspace\_name) | Existing Name of the PowerVS workspace. | `string` | n/a | yes |
 | <a name="input_powervs_zone"></a> [powervs\_zone](#input\_powervs\_zone) | IBM Cloud PowerVS zone. | `string` | n/a | yes |
-| <a name="input_proxy_host_or_ip_port"></a> [proxy\_host\_or\_ip\_port](#input\_proxy\_host\_or\_ip\_port) | Proxy hosname or IP address with port. E.g., 10.10.10.4:3128 <ip:port> | `string` | `""` | no |
+| <a name="input_proxy_host_or_ip_port"></a> [proxy\_host\_or\_ip\_port](#input\_proxy\_host\_or\_ip\_port) | Proxy hostname or IP address with port. E.g., 10.10.10.4:3128 <ip:port> | `string` | `""` | no |
 | <a name="input_sap_domain"></a> [sap\_domain](#input\_sap\_domain) | Domain name to be set. | `string` | `""` | no |
 | <a name="input_ssh_private_key"></a> [ssh\_private\_key](#input\_ssh\_private\_key) | Private SSH key used to login to IBM PowerVS instances. Should match to uploaded public SSH key referenced by 'powervs\_sshkey\_name'. | `string` | `null` | no |
 

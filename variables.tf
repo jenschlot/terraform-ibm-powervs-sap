@@ -247,19 +247,19 @@ variable "ssh_private_key" {
 }
 
 variable "proxy_host_or_ip_port" {
-  description = "Proxy hosname or IP address with port. E.g., 10.10.10.4:3128 <ip:port>"
+  description = "Proxy hostname or IP address with port. E.g., 10.10.10.4:3128 <ip:port>"
   type        = string
   default     = ""
 }
 
 variable "ntp_host_or_ip" {
-  description = "NTP forwarder/server hosname or IP address. E.g., 10.10.10.7"
+  description = "NTP forwarder/server hostname or IP address. E.g., 10.10.10.7"
   type        = string
   default     = ""
 }
 
 variable "dns_host_or_ip" {
-  description = "DNS forwarder/server hosname or IP address. E.g., 10.10.10.6"
+  description = "DNS forwarder/server hostname or IP address. E.g., 10.10.10.6"
   type        = string
   default     = ""
 }
@@ -281,6 +281,10 @@ variable "sap_domain" {
   type        = string
   default     = ""
 }
+
+#####################################################
+# PVS SAP SYSTEM Software Ansible Parameters
+#####################################################
 
 variable "cos_config" {
   description = "COS bucket access information to copy the software to LOCAL DISK"

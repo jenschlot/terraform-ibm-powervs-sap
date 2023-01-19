@@ -20,7 +20,7 @@ variable "powervs_workspace_name" {
 }
 
 variable "powervs_sshkey_name" {
-  description = "Exisiting PowerVS SSH Key Name."
+  description = "Existing PowerVS SSH Key Name."
   type        = string
 }
 
@@ -151,7 +151,7 @@ variable "access_host_or_ip" {
 }
 
 variable "proxy_host_or_ip_port" {
-  description = "Proxy hosname or IP address with port. E.g., 10.10.10.4:3128 <ip:port>. Set to null or empty if not configuring OS."
+  description = "Proxy hostname or IP address with port. E.g., 10.10.10.4:3128 <ip:port>. Set to null or empty if not configuring OS."
   type        = string
 }
 
@@ -187,6 +187,23 @@ variable "cos_config" {
     }
   )
 }
+
+#####################################################
+# PVS SAP HANA Ansible Parameters
+#####################################################
+variable "ansible_sap_hana_install" {
+  description = "HANA Installation parameters"
+  type = object(
+    {
+      enable             = bool
+      software_directory = string
+      master_password    = string
+      sid                = string
+      instance_number    = string
+    }
+  )
+}
+
 
 #####################################################
 # Optional Parameters
@@ -247,7 +264,7 @@ variable "sap_share_instance_config" {
 }
 
 variable "sap_share_storage_config" {
-  description = "File systems to be created and attached to PowerVS instance for shared storage file systems. 'disk_sizes' are in GB. 'count' specify over how many sotrage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS workspace. For creating multiple file systems, specify multiple entries in each parameter in the structure. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths."
+  description = "File systems to be created and attached to PowerVS instance for shared storage file systems. 'disk_sizes' are in GB. 'count' specify over how many storage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS workspace. For creating multiple file systems, specify multiple entries in each parameter in the structure. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths."
   type = object({
     names      = string
     disks_size = string
@@ -315,7 +332,7 @@ variable "sap_netweaver_instance_config" {
 }
 
 variable "sap_netweaver_storage_config" {
-  description = "File systems to be created and attached to PowerVS instance for SAP NetWeaver. 'disk_sizes' are in GB. 'count' specify over how many sotrage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS workspace. For creating multiple file systems, specify multiple entries in each parameter in the structure. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths."
+  description = "File systems to be created and attached to PowerVS instance for SAP NetWeaver. 'disk_sizes' are in GB. 'count' specify over how many storage volumes the file system will be striped. 'tiers' specifies the storage tier in PowerVS workspace. For creating multiple file systems, specify multiple entries in each parameter in the structure. E.g., for creating 2 file systems, specify 2 names, 2 disk sizes, 2 counts, 2 tiers and 2 paths."
   type = object({
     names      = string
     disks_size = string
@@ -329,25 +346,5 @@ variable "sap_netweaver_storage_config" {
     counts     = "1,1"
     tiers      = "tier3,tier3"
     paths      = "/usr/sap,/usr/sap/trans"
-  }
-}
-
-variable "ansible_sap_hana_install" {
-  description = "HANA Installation parameters"
-  type = object(
-    {
-      enable             = bool
-      software_directory = string
-      master_password    = string
-      sid                = string
-      instance_number    = string
-    }
-  )
-  default = {
-    enable             = true
-    software_directory = "/nfs/HANA/v59"
-    master_password    = "NewPass$321"
-    sid                = "HDB"
-    instance_number    = "00"
   }
 }
