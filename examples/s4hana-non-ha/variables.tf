@@ -331,3 +331,23 @@ variable "sap_netweaver_storage_config" {
     paths      = "/usr/sap,/usr/sap/trans"
   }
 }
+
+variable "ansible_sap_hana_install" {
+  description = "HANA Installation parameters"
+  type = object(
+    {
+      enable             = bool
+      software_directory = string
+      master_password    = string
+      sid                = string
+      instance_number    = string
+    }
+  )
+  default = {
+    enable             = true
+    software_directory = "/nfs/HANA/v59"
+    master_password    = "NewPass$321"
+    sid                = "HDB"
+    instance_number    = "00"
+  }
+}

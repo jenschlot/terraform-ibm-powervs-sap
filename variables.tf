@@ -304,3 +304,23 @@ variable "cos_config" {
     target_folder_path_local = ""
   }
 }
+
+variable "ansible_sap_hana_install" {
+  description = "HANA Installation parameters"
+  type = object(
+    {
+      enable             = bool
+      software_directory = string
+      master_password    = string
+      sid                = string
+      instance_number    = string
+    }
+  )
+  default = {
+    enable             = false
+    software_directory = "/nfs/HANA/v59"
+    master_password    = "NewPass$321"
+    sid                = "HDB"
+    instance_number    = "00"
+  }
+}

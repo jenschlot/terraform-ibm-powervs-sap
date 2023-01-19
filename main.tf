@@ -165,6 +165,7 @@ module "instance_init" {
   sap_domain                       = var.sap_domain
 }
 
+# Download sap binaries from COS to private VSI on intel.
 module "cos_sap_download" {
 
   source     = "./submodules/cos_sap_download"
@@ -175,4 +176,17 @@ module "cos_sap_download" {
   host_ip           = split(":", var.nfs_path)[0]
   ssh_private_key   = var.ssh_private_key
   cos_config        = var.cos_config
+}
+
+module "ansible_sap_hana_install" {
+
+  source     = "./submodules/ansible_sap_hana_install"
+  depends_on = [module.cos_sap_download]
+  count      = var.ansible_sap_hana_install["enable"] ? 1 : 0
+
+  access_host_or_ip        = var.access_host_or_ip
+  target_server_ip         = module.sap_hana_instance.instance_mgmt_ip
+  ssh_private_key          = var.ssh_private_key
+  ansible_sap_hana_install = var.ansible_sap_hana_install
+
 }

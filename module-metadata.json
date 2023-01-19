@@ -6,12 +6,33 @@
       "type": "string",
       "description": "Public IP of Bastion/jumpserver Host",
       "source": [
+        "module.ansible_sap_hana_install",
         "module.cos_sap_download",
         "module.instance_init"
       ],
       "pos": {
         "filename": "variables.tf",
         "line": 236
+      }
+    },
+    "ansible_sap_hana_install": {
+      "name": "ansible_sap_hana_install",
+      "type": "object(\n    {\n      enable             = bool\n      software_directory = string\n      master_password    = string\n      sid                = string\n      instance_number    = string\n    }\n  )",
+      "description": "HANA Installation parameters",
+      "default": {
+        "enable": false,
+        "instance_number": "00",
+        "master_password": "NewPass$321",
+        "sid": "HDB",
+        "software_directory": "/nfs/HANA/v59"
+      },
+      "source": [
+        "module.ansible_sap_hana_install",
+        "module.ansible_sap_hana_install"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 308
       }
     },
     "configure_os": {
@@ -550,6 +571,7 @@
       "description": "Private SSH key used to login to IBM PowerVS instances. Should match to uploaded public SSH key referenced by 'powervs_sshkey_name'.",
       "sensitive": true,
       "source": [
+        "module.ansible_sap_hana_install",
         "module.cos_sap_download",
         "module.instance_init"
       ],
@@ -610,6 +632,35 @@
   "managed_resources": {},
   "data_resources": {},
   "module_calls": {
+    "ansible_sap_hana_install": {
+      "name": "ansible_sap_hana_install",
+      "source": "./submodules/ansible_sap_hana_install",
+      "attributes": {
+        "access_host_or_ip": "access_host_or_ip",
+        "ansible_sap_hana_install": "ansible_sap_hana_install",
+        "count": "ansible_sap_hana_install",
+        "ssh_private_key": "ssh_private_key"
+      },
+      "managed_resources": {
+        "null_resource.sap_hana_install": {
+          "mode": "managed",
+          "type": "null_resource",
+          "name": "sap_hana_install",
+          "provider": {
+            "name": "null"
+          },
+          "pos": {
+            "filename": "submodules/ansible_sap_hana_install/main.tf",
+            "line": 10
+          }
+        }
+      },
+      "data_resources": {},
+      "pos": {
+        "filename": "main.tf",
+        "line": 181
+      }
+    },
     "attach_sap_network": {
       "name": "attach_sap_network",
       "source": "./submodules/power_attach_private_network",
@@ -744,7 +795,7 @@
       "data_resources": {},
       "pos": {
         "filename": "main.tf",
-        "line": 168
+        "line": 169
       }
     },
     "create_sap_network": {
