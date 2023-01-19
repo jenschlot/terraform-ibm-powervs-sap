@@ -4,28 +4,18 @@ variable "ibmcloud_api_key" {
   sensitive   = true
 }
 
+variable "prerequisite_workspace_id" {
+  description = "IBM Cloud Schematics workspace ID of an existing Power infrastructure for regulated industries deployment. If you do not yet have an existing deployment, click [here](https://cloud.ibm.com/catalog/content/terraform-ibm-powervs-catalog-powervs-sap-infrastructure-07e92c55-6a5b-4f3d-aa0e-30212e108af9-global#create) to create one."
+  type        = string
+}
+
 variable "powervs_zone" {
-  description = "IBM Cloud data center location where IBM PowerVS infrastructure will be created. Following locations are currently supported: syd04, syd05, eu-de-1, eu-de-2, tok04, osa21, sao01, lon04, lon06."
-  type        = string
-}
-
-variable "powervs_resource_group_name" {
-  description = "Existing IBM Cloud resource group name."
-  type        = string
-}
-
-variable "powervs_workspace_name" {
-  description = "Existing Name of PowerVS workspace."
-  type        = string
-}
-
-variable "powervs_sshkey_name" {
-  description = "Existing PowerVS SSH Key Name."
+  description = "IBM Cloud data center location where IBM PowerVS infrastructure will be created."
   type        = string
 }
 
 variable "prefix" {
-  description = "Prefix for resources which will be created. Max length must be less than or equal to 6."
+  description = "Unique prefix for resources to be created (e.g., SAP system name). Max length must be less than or equal to 6."
   type        = string
   validation {
     condition     = length(var.prefix) <= 6
@@ -45,21 +35,10 @@ variable "powervs_sap_network_cidr" {
   default     = "10.111.1.0/24"
 }
 
-variable "additional_networks" {
-  description = "Existing list of subnets name to be attached to PowerVS instances. First network has to be a management network."
-  type        = list(string)
-  default     = ["mgmt_net", "bkp_net"]
-}
-
-variable "cloud_connection_count" {
-  description = "Existing number of Cloud connections to which new subnet must be attached."
-  type        = string
-  default     = 2
-}
-
 variable "os_image_distro" {
-  description = "Image distribution to use for all instances(Shared, HANA, Netweaver). Supported values are 'SLES' or 'RHEL'. OS release versions may be specified in optional parameters."
+  description = "Image distribution to use. Supported values are 'SLES' or 'RHEL'. OS release versions may be specified in optional parameters."
   type        = string
+  default     = "RHEL"
 }
 
 #####################################################
@@ -69,6 +48,7 @@ variable "os_image_distro" {
 variable "create_separate_fs_share" {
   description = "Deploy separate IBM PowerVS instance as central file system share. Instance can be configured in optional parameters (cpus, memory size, etc.). Otherwise, defaults will be used."
   type        = bool
+  default     = false
 }
 
 #####################################################
@@ -109,12 +89,6 @@ variable "sap_hana_additional_storage_config" {
 # PowerVS NetWeaver Instance parameters
 #####################################################
 
-variable "sap_netweaver_instance_number" {
-  description = "Number of SAP NetWeaver instances that should be created."
-  type        = number
-  default     = 1
-}
-
 variable "sap_netweaver_hostname" {
   description = "SAP Netweaver hostname (non FQDN). Will get the form of <prefix>-<sap_netweaver_hostname>-<number>. Max length of final hostname must be <= 13 characters."
   type        = string
@@ -124,66 +98,39 @@ variable "sap_netweaver_hostname" {
 variable "sap_netweaver_cpu_number" {
   description = "Number of CPUs for each SAP NetWeaver instance."
   type        = string
+  default     = "3"
 }
 
 variable "sap_netweaver_memory_size" {
   description = "Memory size for each SAP NetWeaver instance."
   type        = string
+  default     = "32"
 }
 
 #####################################################
-# PVS SAP instance Initialization
+# PVS SAP Software Installation
 #####################################################
-
-variable "configure_os" {
-  description = "Specify if OS on PowerVS instances should be configured for SAP or if only PowerVS instances should be created. If configure_os is true then value has to be set for access_host_ip, ssh_private_key and proxy_host_or_ip_port to continue"
-  type        = bool
-}
 
 variable "sap_domain" {
   description = "SAP domain to be set for entire landscape. Set to null or empty if not configuring OS."
   type        = string
 }
 
-variable "access_host_or_ip" {
-  description = "The public IP address or hostname for the access host. The address is used to reach the target or server_host IP address and to configure the DNS, NTP, NFS, and Squid proxy services. Set to null or empty if not configuring OS."
-  type        = string
-}
-
-variable "proxy_host_or_ip_port" {
-  description = "Proxy hostname or IP address with port. E.g., 10.10.10.4:3128 <ip:port>. Set to null or empty if not configuring OS."
-  type        = string
-}
-
-variable "dns_host_or_ip" {
-  description = "Private IP address of DNS server, resolver or forwarder. Set to null or empty if not configuring OS."
-  type        = string
-}
-
-variable "ntp_host_or_ip" {
-  description = "Private IP address of NTP time server or forwarder. Set to null or empty if not configuring OS."
-  type        = string
-}
-
-variable "nfs_path" {
-  description = "Full path on NFS server (in form <hostname_or_ip>:<directory>, e.g., '10.20.10.4:/nfs'). Set to null or empty if not configuring OS."
-  type        = string
-}
-
 variable "nfs_client_directory" {
-  description = "NFS directory on PowerVS instances. Will be used only if nfs_server is setup in 'Power infrastructure for regulated industries'. Set to null or empty if not configuring OS."
+  description = "NFS directory on PowerVS instances. Will be used only if nfs_server is setup in 'Power infrastructure for regulated industries'"
   type        = string
+  default     = "/nfs"
 }
 
 variable "cos_config" {
   description = "COS bucket access information to copy the SAP Software to LOCAL DISK."
   type = object(
     {
-      cos_bucket_name        = string
-      cos_access_key         = string
-      cos_secret_access_key  = string
-      cos_endpoint_url       = string
-      cos_source_folder_path = string
+      cos_bucket_name          = string
+      cos_access_key           = string
+      cos_secret_access_key    = string
+      cos_endpoint_url         = string
+      cos_source_folders_paths = list(string)
     }
   )
 }
@@ -202,8 +149,14 @@ variable "ansible_sap_hana_install" {
       instance_number    = string
     }
   )
+  default = {
+    enable             = true
+    software_directory = "/nfs/HANA/v59"
+    master_password    = "NewPass$321"
+    sid                = "HDB"
+    instance_number    = "00"
+  }
 }
-
 
 #####################################################
 # Optional Parameters
@@ -314,7 +267,6 @@ variable "sap_hana_custom_storage_config" {
 variable "sap_netweaver_instance_config" {
   description = "SAP NetWeaver PowerVS instance configuration. If data is specified here - will replace other input."
   type = object({
-    number_of_instances  = string
     os_image_name        = string
     number_of_processors = string
     memory_size          = string
@@ -322,7 +274,6 @@ variable "sap_netweaver_instance_config" {
     server_type          = string
   })
   default = {
-    number_of_instances  = ""
     os_image_name        = ""
     number_of_processors = ""
     memory_size          = ""

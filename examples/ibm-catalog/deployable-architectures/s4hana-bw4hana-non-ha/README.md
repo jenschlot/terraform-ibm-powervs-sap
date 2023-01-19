@@ -35,7 +35,7 @@ The PowerVS SAP system example automates the following tasks:
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_ansible_sap_hana_install"></a> [ansible\_sap\_hana\_install](#input\_ansible\_sap\_hana\_install) | HANA Installation parameters | <pre>object(<br>    {<br>      enable             = bool<br>      software_directory = string<br>      master_password    = string<br>      sid                = string<br>      instance_number    = string<br>    }<br>  )</pre> | <pre>{<br>  "enable": true,<br>  "instance_number": "00",<br>  "master_password": "NewPass$321",<br>  "sid": "HDB",<br>  "software_directory": "/nfs/HANA/v59"<br>}</pre> | no |
-| <a name="input_cos_config"></a> [cos\_config](#input\_cos\_config) | COS bucket access information to copy the SAP Software to LOCAL DISK. | <pre>object(<br>    {<br>      cos_bucket_name        = string<br>      cos_access_key         = string<br>      cos_secret_access_key  = string<br>      cos_endpoint_url       = string<br>      cos_source_folder_path = string<br>    }<br>  )</pre> | n/a | yes |
+| <a name="input_cos_config"></a> [cos\_config](#input\_cos\_config) | COS bucket access information to copy the SAP Software to LOCAL DISK. | <pre>object(<br>    {<br>      cos_bucket_name          = string<br>      cos_access_key           = string<br>      cos_secret_access_key    = string<br>      cos_endpoint_url         = string<br>      cos_source_folders_paths = list(string)<br>    }<br>  )</pre> | n/a | yes |
 | <a name="input_create_separate_fs_share"></a> [create\_separate\_fs\_share](#input\_create\_separate\_fs\_share) | Deploy separate IBM PowerVS instance as central file system share. Instance can be configured in optional parameters (cpus, memory size, etc.). Otherwise, defaults will be used. | `bool` | `false` | no |
 | <a name="input_default_hana_rhel_image"></a> [default\_hana\_rhel\_image](#input\_default\_hana\_rhel\_image) | Default Red Hat Linux image to use for SAP HANA PowerVS instances. | `string` | `"RHEL8-SP4-SAP"` | no |
 | <a name="input_default_hana_sles_image"></a> [default\_hana\_sles\_image](#input\_default\_hana\_sles\_image) | Default SuSE Linux image to use for SAP HANA PowerVS instances. | `string` | `"SLES15-SP3-SAP"` | no |
@@ -70,6 +70,8 @@ The PowerVS SAP system example automates the following tasks:
 | Name | Description |
 |------|-------------|
 | <a name="output_access_host_or_ip"></a> [access\_host\_or\_ip](#output\_access\_host\_or\_ip) | Public IP of Provided Bastion/JumpServer Host |
+| <a name="output_hana_instance_private_mgmt_ip"></a> [hana\_instance\_private\_mgmt\_ip](#output\_hana\_instance\_private\_mgmt\_ip) | Private Management IP of the HANA instance. |
+| <a name="output_hana_instance_private_sap_ip"></a> [hana\_instance\_private\_sap\_ip](#output\_hana\_instance\_private\_sap\_ip) | Private SAP IP of the HANA instance. |
 | <a name="output_hana_ips"></a> [hana\_ips](#output\_hana\_ips) | All private IPS of HANA instance |
 | <a name="output_netweaver_ips"></a> [netweaver\_ips](#output\_netweaver\_ips) | All private IPS of NetWeaver instances |
 | <a name="output_share_fs_ips"></a> [share\_fs\_ips](#output\_share\_fs\_ips) | Private IPs of the Share FS instance. |

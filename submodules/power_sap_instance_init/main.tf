@@ -167,7 +167,9 @@ EOF
       ####  Execute ansible roles: prepare_sles/rhel_sap, powervs_fs_creation and powervs_swap_creation  ####
 
       "ansible-galaxy collection install ibm.power_linux_sap:1.0.9",
-      "ansible-galaxy collection install community.sap_install",
+      "ansible-galaxy collection install community.sap_install:1.1.0",
+      ### Bug in ansible community role. Deleting IBMinvscout package
+      "sed -i '278d' ~/.ansible/collections/ansible_collections/community/sap_install/roles/sap_hana_preconfigure/vars/RedHat_8.yml",
       "unbuffer ansible-playbook --connection=local -i 'localhost,' ~/.ansible/collections/ansible_collections/ibm/power_linux_sap/playbooks/${local.ansible_playbook_name} --extra-vars '@/root/tf_configure_for_sap.yml' 2>&1 | tee ansible_execution.log ",
     ]
   }

@@ -117,9 +117,9 @@ statement instead the previous block.
 
 - [ Basic PowerVS SAP system Module Example](examples/basic)
 - [ PowerVS SAP system example to create SAP prepared PowerVS instances from IBM Cloud Catalog](examples/ibm-catalog/deployable-architectures/prepared-system-non-ha)
-- [ PowerVS SAP system example to create SAP S4HANA SYSTEM](examples/ibm-catalog/deployable-architectures/s4hana-non-ha)
+- [ PowerVS SAP system example to create SAP S4HANA SYSTEM](examples/ibm-catalog/deployable-architectures/s4hana-bw4hana-non-ha)
 - [ PowerVS SAP system example to create SAP prepared PowerVS instances](examples/prepared-system-non-ha)
-- [ PowerVS SAP system example to create SAP prepared PowerVS instances](examples/s4hana-non-ha)
+- [ PowerVS SAP system example to create SAP prepared PowerVS instances](examples/s4hana-bw4hana-non-ha)
 <!-- END EXAMPLES HOOK -->
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
@@ -155,7 +155,7 @@ No resources.
 | <a name="input_access_host_or_ip"></a> [access\_host\_or\_ip](#input\_access\_host\_or\_ip) | Public IP of Bastion/jumpserver Host | `string` | `null` | no |
 | <a name="input_ansible_sap_hana_install"></a> [ansible\_sap\_hana\_install](#input\_ansible\_sap\_hana\_install) | HANA Installation parameters | <pre>object(<br>    {<br>      enable             = bool<br>      software_directory = string<br>      master_password    = string<br>      sid                = string<br>      instance_number    = string<br>    }<br>  )</pre> | <pre>{<br>  "enable": false,<br>  "instance_number": "00",<br>  "master_password": "NewPass$321",<br>  "sid": "HDB",<br>  "software_directory": "/nfs/HANA/v59"<br>}</pre> | no |
 | <a name="input_configure_os"></a> [configure\_os](#input\_configure\_os) | Specify if OS on PowerVS instances should be configured for SAP or if only PowerVS instances should be created. | `bool` | `true` | no |
-| <a name="input_cos_config"></a> [cos\_config](#input\_cos\_config) | COS bucket access information to copy the software to LOCAL DISK | <pre>object(<br>    {<br>      cos_bucket_name          = string<br>      cos_access_key           = string<br>      cos_secret_access_key    = string<br>      cos_endpoint_url         = string<br>      cos_source_folder_path   = string<br>      target_folder_path_local = string<br>    }<br>  )</pre> | <pre>{<br>  "cos_access_key": "",<br>  "cos_bucket_name": "",<br>  "cos_endpoint_url": "",<br>  "cos_secret_access_key": "",<br>  "cos_source_folder_path": "",<br>  "target_folder_path_local": ""<br>}</pre> | no |
+| <a name="input_cos_config"></a> [cos\_config](#input\_cos\_config) | COS bucket access information to copy the software to LOCAL DISK | <pre>object(<br>    {<br>      cos_bucket_name          = string<br>      cos_access_key           = string<br>      cos_secret_access_key    = string<br>      cos_endpoint_url         = string<br>      cos_source_folders_paths = list(string)<br>      target_folder_path_local = string<br>    }<br>  )</pre> | <pre>{<br>  "cos_access_key": "",<br>  "cos_bucket_name": "",<br>  "cos_endpoint_url": "",<br>  "cos_secret_access_key": "",<br>  "cos_source_folders_paths": [<br>    ""<br>  ],<br>  "target_folder_path_local": ""<br>}</pre> | no |
 | <a name="input_dns_host_or_ip"></a> [dns\_host\_or\_ip](#input\_dns\_host\_or\_ip) | DNS forwarder/server hostname or IP address. E.g., 10.10.10.6 | `string` | `""` | no |
 | <a name="input_nfs_client_directory"></a> [nfs\_client\_directory](#input\_nfs\_client\_directory) | NFS directory on PowerVS instances. Will be used only if nfs\_server is setup in 'Power infrastructure for regulated industries' | `string` | `"/nfs"` | no |
 | <a name="input_nfs_path"></a> [nfs\_path](#input\_nfs\_path) | Full path on NFS server (in form <hostname\_or\_ip>:<directory>, e.g., '10.20.10.4:/nfs'). | `string` | `""` | no |
@@ -199,6 +199,8 @@ No resources.
 |------|-------------|
 | <a name="output_access_host_or_ip"></a> [access\_host\_or\_ip](#output\_access\_host\_or\_ip) | Public IP to manage the environment |
 | <a name="output_hana_instance_private_ips"></a> [hana\_instance\_private\_ips](#output\_hana\_instance\_private\_ips) | Private IPs of the HANA instance. |
+| <a name="output_hana_instance_private_mgmt_ip"></a> [hana\_instance\_private\_mgmt\_ip](#output\_hana\_instance\_private\_mgmt\_ip) | Private Management IP of the HANA instance. |
+| <a name="output_hana_instance_private_sap_ip"></a> [hana\_instance\_private\_sap\_ip](#output\_hana\_instance\_private\_sap\_ip) | Private SAP IP of the HANA instance. |
 | <a name="output_netweaver_instance_private_ips"></a> [netweaver\_instance\_private\_ips](#output\_netweaver\_instance\_private\_ips) | Private IPs of all NetWeaver instances. |
 | <a name="output_share_fs_instance_private_ips"></a> [share\_fs\_instance\_private\_ips](#output\_share\_fs\_instance\_private\_ips) | Private IPs of the Share FS instance. |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

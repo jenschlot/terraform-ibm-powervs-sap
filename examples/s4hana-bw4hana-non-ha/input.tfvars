@@ -39,11 +39,11 @@ sap_netweaver_memory_size     = "32"
 
 #### SAP Installation
 cos_config = {
-  cos_bucket_name        = "<value>"
-  cos_access_key         = "<value>"
-  cos_secret_access_key  = "<value>"
-  cos_endpoint_url       = "<value>" #https://s3.eu.cloud-object-storage.appdomain.cloud/
-  cos_source_folder_path = "<value>" # empty when you want to copy everythimg from root.
+  cos_bucket_name          = "<value>"
+  cos_access_key           = "<value>"
+  cos_secret_access_key    = "<value>"
+  cos_endpoint_url         = "<value>" #https://s3.eu.cloud-object-storage.appdomain.cloud/
+  cos_source_folders_paths = ["<value>", "<value>"]
 }
 
 ansible_sap_hana_install = {

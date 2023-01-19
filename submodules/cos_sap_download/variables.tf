@@ -6,7 +6,7 @@ variable "cos_config" {
       cos_access_key           = string
       cos_secret_access_key    = string
       cos_endpoint_url         = string
-      cos_source_folder_path   = string
+      cos_source_folders_paths = list(string)
       target_folder_path_local = string
     }
   )
