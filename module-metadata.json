@@ -670,7 +670,7 @@
           },
           "pos": {
             "filename": "submodules/ansible_sap_s4hana_bw4hana/main.tf",
-            "line": 40
+            "line": 39
           }
         },
         "null_resource.sap_nw_install": {
@@ -682,7 +682,7 @@
           },
           "pos": {
             "filename": "submodules/ansible_sap_s4hana_bw4hana/main.tf",
-            "line": 78
+            "line": 85
           }
         }
       },

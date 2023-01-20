@@ -3,9 +3,8 @@
 #####################################################
 
 locals {
-  src_ansible_hana_vars_location       = "${path.module}/ansible_default_hana_vars.yml"
+
   dest_ansible_hana_vars_location      = "/root/ansible_default_hana_vars.yml"
-  src_ansible_netweaver_vars_location  = "${path.module}/ansible_default_s4hana_bw4hana_vars.yml"
   dest_ansible_netweaver_vars_location = "/root/ansible_default_s4hana_bw4hana_vars.yml"
 
   solution                     = var.ansible_parameters["solution"]
@@ -49,20 +48,28 @@ resource "null_resource" "sap_hana_install" {
   }
 
   provisioner "file" {
-    source      = local.src_ansible_hana_vars_location
+
+    ######### Write the HANA installation variables in ansible var file. /root/ansible_default_hana_vars.yml ####
+
+    content = <<EOF
+# Install directory must contain
+#   1.  IMDB_SERVER*SAR file
+#   2.  IMDB_*SAR files for all components you wish to install
+#   3.  SAPCAR executable
+sap_hana_install_software_directory: '${local.hana_software_directory}'
+
+# Master password
+sap_hana_install_master_password: '${local.db_master_password}'
+
+# Instance details
+sap_hana_install_sid: '${local.db_sid}'
+sap_hana_install_instance_number: '${local.db_instance_number}'
+EOF
+
     destination = local.dest_ansible_hana_vars_location
+
   }
 
-  ##### Update the hana installation variables in ansible var file.
-  provisioner "remote-exec" {
-    inline = [
-
-      "grep -qxF \"sap_hana_install_software_directory: ${local.hana_software_directory}\" ${local.dest_ansible_hana_vars_location} || sed -i '/^sap_hana_install_software_directory:/csap_hana_install_software_directory: ${local.hana_software_directory}' ${local.dest_ansible_hana_vars_location}",
-      "grep -qxF \"sap_hana_install_master_password: ${local.db_master_password}\" ${local.dest_ansible_hana_vars_location} || sed -i '/^sap_hana_install_master_password:/csap_hana_install_master_password: \"${local.db_master_password}\"' ${local.dest_ansible_hana_vars_location}",
-      "grep -qxF \"sap_hana_install_sid: ${local.db_sid}\" ${local.dest_ansible_hana_vars_location} || sed -i '/^sap_hana_install_sid:/csap_hana_install_sid: \"${local.db_sid}\"' ${local.dest_ansible_hana_vars_location}",
-      "grep -qxF \"sap_hana_install_instance_number: ${local.db_instance_number}\" ${local.dest_ansible_hana_vars_location} || sed -i '/^sap_hana_install_instance_number:/csap_hana_install_instance_number: \"${local.db_instance_number}\"' ${local.dest_ansible_hana_vars_location}",
-    ]
-  }
 
   provisioner "remote-exec" {
     inline = [
@@ -88,12 +95,8 @@ resource "null_resource" "sap_nw_install" {
     timeout      = "5m"
   }
 
-  provisioner "file" {
-    source      = local.src_ansible_netweaver_vars_location
-    destination = local.dest_ansible_netweaver_vars_location
-  }
 
-  ### add HANA SAP host IP in /etce/hosts file
+  ### add HANA SAP host IP in /etc/hosts file
   provisioner "remote-exec" {
     inline = [
       "grep -qxF \"${local.hana_instance_sap_ip} ${local.hana_instance_hostname} ${local.hana_instance_hostname}.${local.swpm_fqdn} \" /etc/hosts || echo \"${local.hana_instance_sap_ip} ${local.hana_instance_hostname} ${local.hana_instance_hostname}.${local.swpm_fqdn}\" >> /etc/hosts"
@@ -142,4 +145,13 @@ EOF
     destination = local.dest_ansible_netweaver_vars_location
   }
 
+  provisioner "remote-exec" {
+    inline = [
+
+      ####  Execute ansible community role to install S4HANA/BW$HANA based on solution passed.  ####
+      "ansible-galaxy collection install ibm.power_linux_sap:1.0.9",
+      "ansible-galaxy collection install community.sap_install:1.1.0",
+      "unbuffer ansible-playbook --connection=local -i 'localhost,' ~/.ansible/collections/ansible_collections/community/sap_install/playbooks/sample-sap-hana-install.yml --extra-vars '@${local.dest_ansible_hana_vars_location}' | tee ansible_execution.log ",
+    ]
+  }
 }

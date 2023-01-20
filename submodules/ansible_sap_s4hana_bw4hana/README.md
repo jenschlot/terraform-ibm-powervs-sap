@@ -1,6 +1,6 @@
 # Module ansible_default_hana_install
 
-This module calls ansible collection and install SAP HANA on target system.
+This module calls ansible collection and install SAP HANA, S4HANA/BW4HANA on target system.
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
