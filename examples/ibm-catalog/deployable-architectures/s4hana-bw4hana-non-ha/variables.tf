@@ -139,21 +139,43 @@ variable "cos_config" {
 #####################################################
 # PVS SAP HANA Ansible Parameters
 #####################################################
-variable "ansible_sap_hana_install" {
+variable "ansible_sap_solution" {
   description = "HANA Installation parameters"
   type = object(
     {
-      enable          = bool
-      master_password = string
-      sid             = string
-      instance_number = string
+      enable                       = bool
+      solution                     = string
+      db_master_password           = string
+      db_sid                       = string
+      db_instance_number           = string
+      swpm_sid                     = string
+      swpm_pas_instance_nr         = string
+      swpm_ascs_instance_nr        = string
+      swpm_master_password         = string
+      swpm_ddic_000_password       = string
+      swpm_db_system_password      = string
+      swpm_db_systemdb_password    = string
+      swpm_db_schema_abap          = string
+      swpm_db_schema_abap_password = string
+      swpm_db_sidadm_password      = string
     }
   )
   default = {
-    enable          = true
-    master_password = "NewPass$321"
-    sid             = "HDB"
-    instance_number = "00"
+    enable                       = true
+    solution                     = "s4hana"
+    db_master_password           = "NewPass$321"
+    db_sid                       = "HDB"
+    db_instance_number           = "00"
+    swpm_sid                     = "S4H"
+    swpm_pas_instance_nr         = "01"
+    swpm_ascs_instance_nr        = "02"
+    swpm_master_password         = "NewPass$321"
+    swpm_ddic_000_password       = "NewPass$321"
+    swpm_db_system_password      = "NewPass$321"
+    swpm_db_systemdb_password    = "NewPass$321"
+    swpm_db_schema_abap          = "SAPHANADB"
+    swpm_db_schema_abap_password = "NewPass$321"
+    swpm_db_sidadm_password      = "NewPass$321"
   }
 }
 

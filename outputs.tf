@@ -25,5 +25,5 @@ output "netweaver_instance_private_ips" {
 
 output "share_fs_instance_private_ips" {
   description = "Private IPs of the Share FS instance."
-  value       = module.share_fs_instance[*].instance_private_ips
+  value       = length(module.share_fs_instance[*].instance_private_ips) != 0 ? module.share_fs_instance[*].instance_private_ips : null
 }

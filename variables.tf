@@ -309,22 +309,11 @@ variable "cos_config" {
   }
 }
 
-variable "ansible_sap_hana_install" {
-  description = "HANA Installation parameters"
-  type = object(
-    {
-      enable             = bool
-      software_directory = string
-      master_password    = string
-      sid                = string
-      instance_number    = string
-    }
-  )
+variable "ansible_sap_solution" {
+  description = "Product catalog solution."
+  type        = any
   default = {
-    enable             = false
-    software_directory = "/nfs/HANA/v59"
-    master_password    = "NewPass$321"
-    sid                = "HDB"
-    instance_number    = "00"
+    "enable"   = false
+    "solution" = ""
   }
 }

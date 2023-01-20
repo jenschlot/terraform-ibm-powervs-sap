@@ -178,15 +178,18 @@ module "cos_sap_download" {
   cos_config        = var.cos_config
 }
 
-module "ansible_sap_hana_install" {
+module "ansible_s4hana_bw4hana" {
 
-  source     = "./submodules/ansible_sap_hana_install"
-  depends_on = [module.cos_sap_download]
-  count      = var.ansible_sap_hana_install["enable"] ? 1 : 0
+  source     = "./submodules/ansible_sap_s4hana_bw4hana"
+  depends_on = [module.cos_sap_download, module.sap_hana_instance, module.sap_netweaver_instance]
+  count      = var.ansible_sap_solution["enable"] && contains(["s4hana", "bw4hana"], var.ansible_sap_solution["solution"]) ? 1 : 0
 
-  access_host_or_ip        = var.access_host_or_ip
-  target_server_ip         = module.sap_hana_instance.instance_mgmt_ip
-  ssh_private_key          = var.ssh_private_key
-  ansible_sap_hana_install = var.ansible_sap_hana_install
-
+  access_host_or_ip     = var.access_host_or_ip
+  target_server_hana_ip = module.sap_hana_instance.instance_mgmt_ip
+  target_server_nw_ip   = module.sap_netweaver_instance[0].instance_mgmt_ip
+  ssh_private_key       = var.ssh_private_key
+  ansible_parameters = merge(var.ansible_sap_solution, { "hana_instance_sap_ip" = module.sap_hana_instance.instance_sap_ip
+    "hana_instance_hostname"      = var.powervs_hana_instance_name
+    "swpm_ascs_instance_hostname" = "${var.powervs_netweaver_instance_name}-1"
+  "swpm_fqdn" = var.sap_domain })
 }

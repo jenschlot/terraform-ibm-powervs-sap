@@ -100,10 +100,6 @@ locals {
     cos_source_folders_paths = [var.cos_config["cos_hana_software_directory"], var.cos_config["cos_solution_software_directory"]]
     target_folder_path_local = var.nfs_client_directory
   }
-
-  ansible_sap_hana_install = merge(var.ansible_sap_hana_install, {
-    "software_directory" = var.cos_config["cos_hana_software_directory"]
-  })
 }
 
 
@@ -156,7 +152,11 @@ module "sap_systems" {
   nfs_path              = local.nfs_path
   nfs_client_directory  = var.nfs_client_directory
 
-  sap_domain               = var.sap_domain
-  cos_config               = local.cos_config
-  ansible_sap_hana_install = local.ansible_sap_hana_install
+  sap_domain = var.sap_domain
+  cos_config = local.cos_config
+  ansible_sap_solution = merge(var.ansible_sap_solution, {
+    "hana_software_directory"     = "${var.nfs_client_directory}/${var.cos_config["cos_hana_software_directory"]}"
+    "solution_software_directory" = "${var.nfs_client_directory}/${var.cos_config["cos_solution_software_directory"]}"
+
+  })
 }
