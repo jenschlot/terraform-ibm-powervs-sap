@@ -119,7 +119,6 @@ statement instead the previous block.
 - [ PowerVS SAP system example to create SAP prepared PowerVS instances from IBM Cloud Catalog](examples/ibm-catalog/deployable-architectures/prepared-system-non-ha)
 - [ PowerVS SAP system example to create SAP S4HANA SYSTEM](examples/ibm-catalog/deployable-architectures/s4hana-bw4hana-non-ha)
 - [ PowerVS SAP system example to create SAP prepared PowerVS instances](examples/prepared-system-non-ha)
-- [ PowerVS SAP system example to create SAP prepared PowerVS instances](examples/s4hana-bw4hana-non-ha)
 <!-- END EXAMPLES HOOK -->
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

@@ -126,11 +126,12 @@ variable "cos_config" {
   description = "COS bucket access information to copy the SAP Software to LOCAL DISK."
   type = object(
     {
-      cos_bucket_name          = string
-      cos_access_key           = string
-      cos_secret_access_key    = string
-      cos_endpoint_url         = string
-      cos_source_folders_paths = list(string)
+      cos_bucket_name                 = string
+      cos_access_key                  = string
+      cos_secret_access_key           = string
+      cos_endpoint_url                = string
+      cos_hana_software_directory     = string
+      cos_solution_software_directory = string
     }
   )
 }
@@ -142,19 +143,17 @@ variable "ansible_sap_hana_install" {
   description = "HANA Installation parameters"
   type = object(
     {
-      enable             = bool
-      software_directory = string
-      master_password    = string
-      sid                = string
-      instance_number    = string
+      enable          = bool
+      master_password = string
+      sid             = string
+      instance_number = string
     }
   )
   default = {
-    enable             = true
-    software_directory = "/nfs/HANA/v59"
-    master_password    = "NewPass$321"
-    sid                = "HDB"
-    instance_number    = "00"
+    enable          = true
+    master_password = "NewPass$321"
+    sid             = "HDB"
+    instance_number = "00"
   }
 }
 

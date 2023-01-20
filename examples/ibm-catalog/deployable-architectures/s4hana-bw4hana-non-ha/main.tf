@@ -92,7 +92,18 @@ locals {
   powervs_netweaver_cpu_proc_type        = var.sap_netweaver_instance_config["cpu_proc_type"] != null && var.sap_netweaver_instance_config["cpu_proc_type"] != "" ? var.sap_netweaver_instance_config["cpu_proc_type"] : local.def_netweaver_cpu_proc_type
   powervs_netweaver_server_type          = var.sap_netweaver_instance_config["server_type"] != null && var.sap_netweaver_instance_config["server_type"] != "" ? var.sap_netweaver_instance_config["server_type"] : local.def_netweaver_server_type
 
-  cos_config = merge(var.cos_config, { "target_folder_path_local" = var.nfs_client_directory })
+  cos_config = {
+    cos_bucket_name          = var.cos_config["cos_bucket_name"]
+    cos_access_key           = var.cos_config["cos_access_key"]
+    cos_secret_access_key    = var.cos_config["cos_secret_access_key"]
+    cos_endpoint_url         = var.cos_config["cos_endpoint_url"]
+    cos_source_folders_paths = [var.cos_config["cos_hana_software_directory"], var.cos_config["cos_solution_software_directory"]]
+    target_folder_path_local = var.nfs_client_directory
+  }
+
+  ansible_sap_hana_install = merge(var.ansible_sap_hana_install, {
+    "software_directory" = var.cos_config["cos_hana_software_directory"]
+  })
 }
 
 
@@ -147,5 +158,5 @@ module "sap_systems" {
 
   sap_domain               = var.sap_domain
   cos_config               = local.cos_config
-  ansible_sap_hana_install = var.ansible_sap_hana_install
+  ansible_sap_hana_install = local.ansible_sap_hana_install
 }
