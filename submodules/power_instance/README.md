@@ -1,10 +1,6 @@
 # Module power_instance
 This module creates and configures a PowerVS instance for SAP in the Power Virtual Server service of choice. The instances can be created for different use cases like HANA, Netweaver etc based on the inputs provided like image, profile etc.
 
-## Prerequisites
-- Installation of 'Secure infrastructure on VPC for regulated industries' catalog provision of version v1.7.1 or above.
-- Installation of 'Power infrastructure for regulated industries' catalog provision of version v4.0.0 or above.
-
 ## Usage
 ```hcl
 provider "ibm" {
@@ -18,7 +14,7 @@ module "share_fs_instance" {
 
   powervs_zone                 = var.powervs_zone
   powervs_resource_group_name  = var.powervs_resource_group_name
-  powervs_workspace_name         = var.powervs_workspace_name
+  powervs_workspace_name       = var.powervs_workspace_name
   powervs_instance_name        = var.powervs_share_instance_name
   powervs_sshkey_name          = var.powervs_sshkey_name
   powervs_os_image_name        = var.powervs_share_image_name
@@ -33,7 +29,7 @@ module "share_fs_instance" {
 module "sap_hana_instance" {
   powervs_zone                = var.powervs_zone
   powervs_resource_group_name = var.powervs_resource_group_name
-  powervs_workspace_name        = var.powervs_workspace_name
+  powervs_workspace_name      = var.powervs_workspace_name
   powervs_instance_name       = var.powervs_hana_instance_name
   powervs_sshkey_name         = var.powervs_sshkey_name
   powervs_os_image_name       = var.powervs_hana_image_name
@@ -47,7 +43,7 @@ module "sap_netweaver_instance" {
   count                        = var.powervs_netweaver_number_of_instances
   powervs_zone                 = var.powervs_zone
   powervs_resource_group_name  = var.powervs_resource_group_name
-  powervs_workspace_name         = var.powervs_workspace_name
+  powervs_workspace_name       = var.powervs_workspace_name
   powervs_instance_name        = "${var.powervs_netweaver_instance_name}-${count.index + 1}"
   powervs_sshkey_name          = var.powervs_sshkey_name
   powervs_os_image_name        = var.powervs_netweaver_image_name

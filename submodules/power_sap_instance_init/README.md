@@ -1,4 +1,4 @@
-# Module power_sap_isntance_init
+# Module power_sap_instance_init
 
 This module configures the PVS instance and prepares the system for SAP installation.
 - Configure Forward Proxy

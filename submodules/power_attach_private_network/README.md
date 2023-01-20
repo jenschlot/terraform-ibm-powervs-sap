@@ -1,4 +1,4 @@
-# Module attach_sap_network
+# Module power_attach_sap_network
 This module attaches the newly created sap private network to the cloud connections.
 
 ## Usage

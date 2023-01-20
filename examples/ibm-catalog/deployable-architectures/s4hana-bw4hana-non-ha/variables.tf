@@ -143,7 +143,6 @@ variable "ansible_sap_solution" {
   description = "HANA Installation parameters"
   type = object(
     {
-      enable                       = bool
       solution                     = string
       db_master_password           = string
       db_sid                       = string
@@ -161,7 +160,6 @@ variable "ansible_sap_solution" {
     }
   )
   default = {
-    enable                       = true
     solution                     = "s4hana"
     db_master_password           = "NewPass$321"
     db_sid                       = "HDB"
@@ -176,6 +174,11 @@ variable "ansible_sap_solution" {
     swpm_db_schema_abap          = "SAPHANADB"
     swpm_db_schema_abap_password = "NewPass$321"
     swpm_db_sidadm_password      = "NewPass$321"
+  }
+
+  validation {
+    condition     = contains(["s4hana", "bw4hana"], var.ansible_sap_solution["solution"]) ? true : false
+    error_message = "Solution value has to be either s4hana or bw4hana"
   }
 }
 

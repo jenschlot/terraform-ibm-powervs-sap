@@ -1,4 +1,4 @@
-# Module attach_sap_network
+# Module power_create_private_network
 This module creates a subnet in PowerVS workspace.
 
 ## Usage
@@ -14,8 +14,7 @@ module "create_sap_network" {
 
   powervs_resource_group_name = var.powervs_resource_group_name
   powervs_workspace_name      = var.powervs_workspace_name
-  powervs_sap_network_name    = var.powervs_sap_network_name
-  powervs_sap_network_cidr    = var.powervs_sap_network_cidr
+  powervs_sap_network         = var.powervs_sap_network
 }
 ```
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
