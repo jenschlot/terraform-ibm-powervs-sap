@@ -122,18 +122,23 @@ locals {
   }
 
   netweaver_ansible_vars = {
-    "sap_swpm_product_catalog_id" = lookup(local.product_catalog_map, var.sap_solution)
-    "sap_swpm_software_path"      = "${var.nfs_client_directory}/${var.cos_config["cos_solution_software_directory"]}"
-    "sap_swpm_sapcar_path"        = "${var.nfs_client_directory}/${var.cos_config["cos_solution_software_directory"]}"
-    "sap_swpm_swpm_path"          = "${var.nfs_client_directory}/${var.cos_config["cos_solution_software_directory"]}"
-    "sap_swpm_sid"                = var.swpm_sid
-    "sap_swpm_pas_instance_nr"    = var.swpm_pas_instance_nr
-    "sap_swpm_ascs_instance_nr"   = var.swpm_ascs_instance_nr
-    "sap_swpm_master_password"    = var.swpm_master_password
-    "sap_swpm_ddic_000_password"  = var.swpm_master_password
-    "sap_swpm_fqdn"               = var.sap_domain
-    "sap_swpm_db_sid"             = var.db_sid
-    "sap_swpm_db_instance_nr"     = var.db_instance_number
+    "sap_swpm_product_catalog_id"      = lookup(local.product_catalog_map, var.sap_solution)
+    "sap_swpm_software_path"           = "${var.nfs_client_directory}/${var.cos_config["cos_solution_software_directory"]}"
+    "sap_swpm_sapcar_path"             = "${var.nfs_client_directory}/${var.cos_config["cos_solution_software_directory"]}"
+    "sap_swpm_swpm_path"               = "${var.nfs_client_directory}/${var.cos_config["cos_solution_software_directory"]}"
+    "sap_swpm_sid"                     = var.swpm_sid
+    "sap_swpm_pas_instance_nr"         = var.swpm_pas_instance_nr
+    "sap_swpm_ascs_instance_nr"        = var.swpm_ascs_instance_nr
+    "sap_swpm_master_password"         = var.swpm_master_password
+    "sap_swpm_ddic_000_password"       = var.swpm_master_password
+    "sap_swpm_fqdn"                    = var.sap_domain
+    "sap_swpm_db_sid"                  = var.db_sid
+    "sap_swpm_db_instance_nr"          = var.db_instance_number
+    "sap_swpm_db_system_password"      = var.db_master_password
+    "sap_swpm_db_systemdb_password"    = var.db_master_password
+    "sap_swpm_db_schema_abap"          = "SAPHANADB"
+    "sap_swpm_db_schema_abap_password" = var.db_master_password
+    "sap_swpm_db_sidadm_password"      = var.db_master_password
   }
 
   ansible_sap_solution = {

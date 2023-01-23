@@ -89,11 +89,11 @@ EOF
   provisioner "remote-exec" {
     inline = [
 
-      ####  Execute ansible community role to install S4HANA/BW$HANA based on solution passed.git   ####
+      ####  Execute ansible community role to install S4HANA/BW4HANA based on solution passed.git   ####
       "ansible-galaxy collection install ibm.power_linux_sap:1.0.9",
       "ansible-galaxy collection install community.sap_install:1.1.0",
-      "ansible-galaxy collection install community.general:6.2.0"
-      #"unbuffer ansible-playbook --connection=local -i 'localhost,' ~/.ansible/collections/ansible_collections/community/sap_install/playbooks/sample-sap-hana-install.yml --extra-vars '@${local.dest_ansible_hana_vars_location}' 2>&1 | tee ansible_execution.log ",
+      "ansible-galaxy collection install community.general:6.2.0",
+      "unbuffer ansible-playbook --connection=local -i 'localhost,' ~/.ansible/collections/ansible_collections/community/sap_install/playbooks/sample-sap-swpm.yml --extra-vars '@${local.dest_ansible_netweaver_vars_location}' 2>&1 | tee ansible_execution.log ",
     ]
   }
 }
