@@ -60,6 +60,10 @@ locals {
   nfs_path                    = local.powerinfra_output[0].nfs_path.value
 }
 
+#####################################################
+# Create local values
+#####################################################
+
 locals {
 
   def_share_memory_size          = 2
@@ -93,14 +97,51 @@ locals {
   powervs_netweaver_server_type          = var.sap_netweaver_instance_config["server_type"] != null && var.sap_netweaver_instance_config["server_type"] != "" ? var.sap_netweaver_instance_config["server_type"] : local.def_netweaver_server_type
 
   cos_config = {
-    cos_bucket_name          = var.cos_config["cos_bucket_name"]
-    cos_access_key           = var.cos_config["cos_access_key"]
-    cos_secret_access_key    = var.cos_config["cos_secret_access_key"]
-    cos_endpoint_url         = var.cos_config["cos_endpoint_url"]
-    cos_source_folders_paths = [var.cos_config["cos_hana_software_directory"], var.cos_config["cos_solution_software_directory"]]
-    target_folder_path_local = var.nfs_client_directory
+    "cos_bucket_name"          = var.cos_config["cos_bucket_name"]
+    "cos_access_key"           = var.cos_config["cos_access_key"]
+    "cos_secret_access_key"    = var.cos_config["cos_secret_access_key"]
+    "cos_endpoint_url"         = var.cos_config["cos_endpoint_url"]
+    "cos_source_folders_paths" = [var.cos_config["cos_hana_software_directory"], var.cos_config["cos_solution_software_directory"]]
+    "target_folder_path_local" = var.nfs_client_directory
   }
 
+  #####################################################
+  # Create local values for ansible playbook
+  #####################################################
+
+  hana_ansible_vars = {
+    "sap_hana_install_software_directory" = "${var.nfs_client_directory}/${var.cos_config["cos_hana_software_directory"]}"
+    "sap_hana_install_master_password"    = var.db_master_password
+    "sap_hana_install_sid"                = var.db_sid
+    "sap_hana_install_instance_number"    = var.db_instance_number
+  }
+
+  product_catalog_map = {
+    "s4hana"  = "NW_ABAP_OneHost:S4HANA2020.CORE.HDB.ABAP"
+    "bw4hana" = "NW_ABAP_OneHost:BW4HANA20.CORE.HDB.ABAP"
+  }
+
+  netweaver_ansible_vars = {
+    "sap_swpm_product_catalog_id" = lookup(local.product_catalog_map, var.sap_solution)
+    "sap_swpm_software_path"      = "${var.nfs_client_directory}/${var.cos_config["cos_solution_software_directory"]}"
+    "sap_swpm_sapcar_path"        = "${var.nfs_client_directory}/${var.cos_config["cos_solution_software_directory"]}"
+    "sap_swpm_swpm_path"          = "${var.nfs_client_directory}/${var.cos_config["cos_solution_software_directory"]}"
+    "sap_swpm_sid"                = var.swpm_sid
+    "sap_swpm_pas_instance_nr"    = var.swpm_pas_instance_nr
+    "sap_swpm_ascs_instance_nr"   = var.swpm_ascs_instance_nr
+    "sap_swpm_master_password"    = var.swpm_master_password
+    "sap_swpm_ddic_000_password"  = var.swpm_master_password
+    "sap_swpm_fqdn"               = var.sap_domain
+    "sap_swpm_db_sid"             = var.db_sid
+    "sap_swpm_db_instance_nr"     = var.db_instance_number
+  }
+
+  ansible_sap_solution = {
+    "enable"                 = true
+    "solution"               = var.sap_solution
+    "hana_ansible_vars"      = local.hana_ansible_vars
+    "netweaver_ansible_vars" = local.netweaver_ansible_vars
+  }
 
 }
 
@@ -154,11 +195,7 @@ module "sap_systems" {
   nfs_path              = local.nfs_path
   nfs_client_directory  = var.nfs_client_directory
 
-  sap_domain = var.sap_domain
-  cos_config = local.cos_config
-  ansible_sap_solution = merge(var.ansible_sap_solution, {
-    "enable"                      = true
-    "hana_software_directory"     = "${var.nfs_client_directory}/${var.cos_config["cos_hana_software_directory"]}"
-    "solution_software_directory" = "${var.nfs_client_directory}/${var.cos_config["cos_solution_software_directory"]}"
-  })
+  sap_domain           = var.sap_domain
+  cos_config           = local.cos_config
+  ansible_sap_solution = local.ansible_sap_solution
 }

@@ -139,47 +139,51 @@ variable "cos_config" {
 #####################################################
 # PVS SAP HANA Ansible Parameters
 #####################################################
-variable "ansible_sap_solution" {
-  description = "HANA Installation parameters. Solution value has to be either s4hana or bw4hana"
-  type = object(
-    {
-      solution                     = string
-      db_master_password           = string
-      db_sid                       = string
-      db_instance_number           = string
-      swpm_sid                     = string
-      swpm_pas_instance_nr         = string
-      swpm_ascs_instance_nr        = string
-      swpm_master_password         = string
-      swpm_ddic_000_password       = string
-      swpm_db_system_password      = string
-      swpm_db_systemdb_password    = string
-      swpm_db_schema_abap          = string
-      swpm_db_schema_abap_password = string
-      swpm_db_sidadm_password      = string
-    }
-  )
-  default = {
-    solution                     = "s4hana"
-    db_master_password           = "NewPass$321"
-    db_sid                       = "HDB"
-    db_instance_number           = "00"
-    swpm_sid                     = "S4H"
-    swpm_pas_instance_nr         = "01"
-    swpm_ascs_instance_nr        = "02"
-    swpm_master_password         = "NewPass$321"
-    swpm_ddic_000_password       = "NewPass$321"
-    swpm_db_system_password      = "NewPass$321"
-    swpm_db_systemdb_password    = "NewPass$321"
-    swpm_db_schema_abap          = "SAPHANADB"
-    swpm_db_schema_abap_password = "NewPass$321"
-    swpm_db_sidadm_password      = "NewPass$321"
-  }
 
+variable "sap_solution" {
+  description = "SAP Solution value has to be either s4hana or bw4hana"
+  type        = string
   validation {
-    condition     = contains(["s4hana", "bw4hana"], var.ansible_sap_solution["solution"]) ? true : false
+    condition     = contains(["s4hana", "bw4hana"], var.sap_solution) ? true : false
     error_message = "Solution value has to be either s4hana or bw4hana"
   }
+}
+
+variable "db_master_password" {
+  description = "SAP domain to be set for entire landscape. Set to null or empty if not configuring OS."
+  type        = string
+  sensitive   = true
+}
+
+variable "db_sid" {
+  description = "SAP domain to be set for entire landscape. Set to null or empty if not configuring OS."
+  type        = string
+}
+
+variable "db_instance_number" {
+  description = "SAP domain to be set for entire landscape. Set to null or empty if not configuring OS."
+  type        = string
+}
+
+variable "swpm_sid" {
+  description = "SAP domain to be set for entire landscape. Set to null or empty if not configuring OS."
+  type        = string
+}
+
+variable "swpm_pas_instance_nr" {
+  description = "SAP domain to be set for entire landscape. Set to null or empty if not configuring OS."
+  type        = string
+}
+
+variable "swpm_ascs_instance_nr" {
+  description = "SAP domain to be set for entire landscape. Set to null or empty if not configuring OS."
+  type        = string
+}
+
+variable "swpm_master_password" {
+  description = "SAP domain to be set for entire landscape. Set to null or empty if not configuring OS."
+  type        = string
+  sensitive   = true
 }
 
 #####################################################

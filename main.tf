@@ -188,8 +188,9 @@ module "ansible_s4hana_bw4hana" {
   target_server_hana_ip = module.sap_hana_instance.instance_mgmt_ip
   target_server_nw_ip   = module.sap_netweaver_instance[0].instance_mgmt_ip
   ssh_private_key       = var.ssh_private_key
-  ansible_parameters = merge(var.ansible_sap_solution, { "hana_instance_sap_ip" = module.sap_hana_instance.instance_sap_ip
-    "hana_instance_hostname"      = var.powervs_hana_instance_name
-    "swpm_ascs_instance_hostname" = "${var.powervs_netweaver_instance_name}-1"
-  "swpm_fqdn" = var.sap_domain })
+  ansible_parameters = merge(var.ansible_sap_solution,
+    { "hana_instance_sap_ip"   = module.sap_hana_instance.instance_sap_ip
+      "hana_instance_hostname" = var.powervs_hana_instance_name
+    "netweaver_instance_hostname" = "${var.powervs_netweaver_instance_name}-1" }
+  )
 }
