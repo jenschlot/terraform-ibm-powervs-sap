@@ -140,7 +140,7 @@ variable "cos_config" {
 # PVS SAP HANA Ansible Parameters
 #####################################################
 variable "ansible_sap_solution" {
-  description = "HANA Installation parameters"
+  description = "HANA Installation parameters. Solution value has to be either s4hana or bw4hana"
   type = object(
     {
       solution                     = string
