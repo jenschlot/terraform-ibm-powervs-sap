@@ -1,5 +1,5 @@
 #####################################################
-# Download collections from ansible galaxy and install HANA
+# Download collections from ansible galaxy and install HANA & Netweaver
 #####################################################
 
 locals {
