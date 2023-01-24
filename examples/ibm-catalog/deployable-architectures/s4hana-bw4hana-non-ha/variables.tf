@@ -123,7 +123,7 @@ variable "nfs_client_directory" {
 }
 
 variable "cos_config" {
-  description = "COS bucket access information to copy the SAP Software to LOCAL DISK."
+  description = "COS bucket access information to copy the SAP Software to LOCAL DISK. HANA software directory must contain all files related for HANA DB installation. IMDB server and SAPCAr.EXE file. Solution software directory must contain 2020 S4hana files, SAPCAR.EXE file and SWPM20SP13_4-80003426.SAR"
   type = object(
     {
       cos_bucket_name                 = string
