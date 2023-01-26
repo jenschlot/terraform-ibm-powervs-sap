@@ -165,7 +165,7 @@ EOF
       "ansible-galaxy collection install ibm.power_linux_sap:1.0.9",
       "ansible-galaxy collection install community.sap_install:1.1.0",
       ### Bug in ansible community role. Deleting IBMinvscout package
-      "sed -i '278d' ~/.ansible/collections/ansible_collections/community/sap_install/roles/sap_hana_preconfigure/vars/RedHat8.yml",
+      "sed -i '278d' ~/.ansible/collections/ansible_collections/community/sap_install/roles/sap_hana_preconfigure/vars/RedHat_8.yml",
 
       ## Execute ansible playbook
       "export ANSIBLE_LOG_PATH=\"ansible_execution_sap_init.log\"",
