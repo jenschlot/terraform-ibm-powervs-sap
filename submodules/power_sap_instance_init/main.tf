@@ -1,5 +1,5 @@
 #####################################################
-# Configure Squid client
+# Configure Squid client for internet services
 #####################################################
 
 locals {
@@ -120,7 +120,7 @@ EOF
 
       ####  Execute ansible role : powervs_client_enable_services  ####
 
-      "ansible-galaxy collection install ibm.power_linux_sap",
+      "ansible-galaxy collection install ibm.power_linux_sap:1.0.9",
       "unbuffer ansible-playbook --connection=local -i 'localhost,' ~/.ansible/collections/ansible_collections/ibm/power_linux_sap/playbooks/powervs-services.yml --extra-vars '@/root/tf_connect_to_mgmt_svs.yml' 2>&1 | tee ansible_execution_mgmt_svs.log ",
     ]
   }
@@ -165,8 +165,13 @@ EOF
       "ansible-galaxy collection install ibm.power_linux_sap:1.0.9",
       "ansible-galaxy collection install community.sap_install:1.1.0",
       ### Bug in ansible community role. Deleting IBMinvscout package
-      "sed -i '278d' ~/.ansible/collections/ansible_collections/community/sap_install/roles/sap_hana_preconfigure/vars/RedHat_8.yml",
-      "unbuffer ansible-playbook --connection=local -i 'localhost,' ~/.ansible/collections/ansible_collections/ibm/power_linux_sap/playbooks/${local.ansible_playbook_name} --extra-vars '@/root/tf_configure_for_sap.yml' 2>&1 | tee ansible_execution.log ",
+      "sed -i '278d' ~/.ansible/collections/ansible_collections/community/sap_install/roles/sap_hana_preconfigure/vars/RedHat8.yml",
+
+      ## Execute ansible playbook
+      "export ANSIBLE_LOG_PATH=\"ansible_execution_sap_init.log\"",
+      "unbuffer ansible-playbook --connection=local -i 'localhost,' ~/.ansible/collections/ansible_collections/ibm/power_linux_sap/playbooks/${local.ansible_playbook_name} --extra-vars '@/root/tf_configure_for_sap.yml'",
+      "export status=$?",
+      "[ $status -eq 0 ] && echo \"Playbook command successful\" || exit 1 ",
     ]
   }
 

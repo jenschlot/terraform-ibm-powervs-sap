@@ -320,10 +320,10 @@ variable "sap_netweaver_storage_config" {
     paths      = string
   })
   default = {
-    names      = "usrsap,usrtrans"
-    disks_size = "50,50"
-    counts     = "1,1"
-    tiers      = "tier3,tier3"
-    paths      = "/usr/sap,/usr/sap/trans"
+    names      = "usrsap,usrtrans,sapmnt"
+    disks_size = "50,50,50"
+    counts     = "1,1,1"
+    tiers      = "tier3,tier3,tier3"
+    paths      = "/usr/sap,/usr/sap/trans,/sapmnt"
   }
 }
