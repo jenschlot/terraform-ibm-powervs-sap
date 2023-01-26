@@ -7,7 +7,7 @@ This module copies files from Cloud object storage to target system
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >=1.1 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
 | <a name="requirement_null"></a> [null](#requirement\_null) | >= 3.1.1 |
 
 ## Modules
