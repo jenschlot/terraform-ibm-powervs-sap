@@ -921,10 +921,10 @@
         "ssh_private_key": "ssh_private_key"
       },
       "managed_resources": {
-        "null_resource.configure_for_sap": {
+        "null_resource.configure_os_for_sap": {
           "mode": "managed",
           "type": "null_resource",
-          "name": "configure_for_sap",
+          "name": "configure_os_for_sap",
           "attributes": {
             "count": "target_server_ips"
           },
@@ -933,7 +933,7 @@
           },
           "pos": {
             "filename": "submodules/power_sap_instance_init/main.tf",
-            "line": 133
+            "line": 182
           }
         },
         "null_resource.connect_to_mgmt_svs": {
@@ -948,7 +948,7 @@
           },
           "pos": {
             "filename": "submodules/power_sap_instance_init/main.tf",
-            "line": 74
+            "line": 115
           }
         },
         "null_resource.install_packages": {
@@ -963,7 +963,7 @@
           },
           "pos": {
             "filename": "submodules/power_sap_instance_init/main.tf",
-            "line": 42
+            "line": 69
           }
         },
         "null_resource.perform_proxy_client_setup": {
@@ -978,7 +978,7 @@
           },
           "pos": {
             "filename": "submodules/power_sap_instance_init/main.tf",
-            "line": 10
+            "line": 21
           }
         }
       },

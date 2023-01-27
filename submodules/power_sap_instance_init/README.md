@@ -24,7 +24,7 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [null_resource.configure_for_sap](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
+| [null_resource.configure_os_for_sap](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 | [null_resource.connect_to_mgmt_svs](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 | [null_resource.install_packages](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 | [null_resource.perform_proxy_client_setup](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
