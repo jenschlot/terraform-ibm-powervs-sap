@@ -4,12 +4,21 @@
 
 locals {
 
-  dest_ansible_hana_vars_location      = "/root/ansible_default_hana_vars.yml"
-  dest_ansible_netweaver_vars_location = "/root/ansible_default_s4hana_bw4hana_vars.yml"
-  nw_hostname                          = var.ansible_parameters["netweaver_instance_hostname"]
-  hana_hostname                        = var.ansible_parameters["hana_instance_hostname"]
-  hana_sap_ip                          = var.ansible_parameters["hana_instance_sap_ip"]
-  fqdn                                 = var.ansible_parameters["netweaver_ansible_vars"]["sap_swpm_fqdn"]
+  scr_scripts_dir = "${path.module}/../terraform_templates"
+  dst_scripts_dir = "/root/terraform_scripts"
+
+  src_ansible_exec_tpl_path              = "${local.scr_scripts_dir}/ansible_exec.sh.tftpl"
+  ansible_sap_hana_install_playbook_name = "sample-sap-hana-install.yml"
+  ansible_sap_swpm_install_playbook_name = "sample-sap-swpm.yml"
+  dst_ansible_vars_hana_path             = "${local.dst_scripts_dir}/ansible_hana_vars.yml"
+  dst_ansible_vars_swpm_path             = "${local.dst_scripts_dir}/ansible_s4hana_bw4hana_vars.ymll"
+}
+
+locals {
+  nw_hostname   = var.ansible_parameters["netweaver_instance_hostname"]
+  hana_hostname = var.ansible_parameters["hana_instance_hostname"]
+  hana_sap_ip   = var.ansible_parameters["hana_instance_sap_ip"]
+  fqdn          = var.ansible_parameters["netweaver_ansible_vars"]["sap_swpm_fqdn"]
 }
 
 resource "null_resource" "sap_hana_install" {
@@ -25,7 +34,7 @@ resource "null_resource" "sap_hana_install" {
 
   provisioner "file" {
 
-    ######### Write the HANA installation variables in ansible var file. /root/ansible_default_hana_vars.yml ####
+    ######### Write the HANA installation variables in ansible var file. ####
 
     content = <<EOF
 # Install directory must contain
@@ -36,23 +45,27 @@ resource "null_resource" "sap_hana_install" {
 ${yamlencode(var.ansible_parameters["hana_ansible_vars"])}
 EOF
 
-    destination = local.dest_ansible_hana_vars_location
+    destination = local.dst_ansible_vars_hana_path
 
   }
 
+  provisioner "file" {
+    destination = "${local.dst_scripts_dir}/hana_install.sh"
+    content = templatefile(
+      local.src_ansible_exec_tpl_path,
+      {
+        "ansible_playbook_name" : local.ansible_sap_hana_install_playbook_name
+        "ansible_extra_vars_path" : local.dst_ansible_vars_hana_path
+      }
+    )
+  }
 
   provisioner "remote-exec" {
     inline = [
+      ####  Execute ansible community role to install HANA. ####
 
-      ####  Execute ansible community role to install HANA.  ####
-      "ansible-galaxy collection install ibm.power_linux_sap:1.0.9",
-      "ansible-galaxy collection install community.sap_install:1.1.0",
-
-      ## Execute ansible playbook
-      "export ANSIBLE_LOG_PATH=\"ansible_execution_hana_install.log\"",
-      "unbuffer ansible-playbook --connection=local -i 'localhost,' ~/.ansible/collections/ansible_collections/community/sap_install/playbooks/sample-sap-hana-install.yml --extra-vars '@${local.dest_ansible_hana_vars_location}' ",
-      "export status=$?",
-      "[ $status -eq 0 ] && echo \"Playbook command successful\" || exit 1 ",
+      "chmod +x ${local.dst_scripts_dir}/hana_install.sh",
+      "${local.dst_scripts_dir}/hana_install.sh"
     ]
   }
 }
@@ -79,7 +92,7 @@ resource "null_resource" "sap_nw_install" {
 
   provisioner "file" {
 
-    ######### Write the netweaver installation variables in ansible var file. /root/ansible_default_s4hana_bw4hana_vars.yml ####
+    #### Write the netweaver installation variables in ansible var file ####
 
     content = <<EOF
 ${yamlencode(var.ansible_parameters["netweaver_ansible_vars"])}
@@ -88,22 +101,26 @@ sap_swpm_db_host: '${local.hana_hostname}'
 
 EOF
 
-    destination = local.dest_ansible_netweaver_vars_location
+    destination = local.dst_ansible_vars_swpm_path
+  }
+
+  provisioner "file" {
+    destination = "${local.dst_scripts_dir}/swpm_install.sh"
+    content = templatefile(
+      local.src_ansible_exec_tpl_path,
+      {
+        "ansible_playbook_name" : local.ansible_sap_swpm_install_playbook_name
+        "ansible_extra_vars_path" : local.dst_ansible_vars_swpm_path
+      }
+    )
   }
 
   provisioner "remote-exec" {
     inline = [
+      ####  Execute ansible community role to install S4HANA/BW4HANA based on solution passed  ####
 
-      ####  Execute ansible community role to install S4HANA/BW4HANA based on solution passed.git   ####
-      "ansible-galaxy collection install ibm.power_linux_sap:1.0.9",
-      "ansible-galaxy collection install community.sap_install:1.1.0",
-      "ansible-galaxy collection install community.general:6.2.0",
-
-      ## Execute ansible playbook
-      "export ANSIBLE_LOG_PATH=\"ansible_execution_swpm.log\"",
-      "unbuffer ansible-playbook --connection=local -i 'localhost,' ~/.ansible/collections/ansible_collections/community/sap_install/playbooks/sample-sap-swpm.yml --extra-vars '@${local.dest_ansible_netweaver_vars_location}'",
-      "export status=$?",
-      "[ $status -eq 0 ] && echo \"Playbook command successful\" || exit 1 ",
+      "chmod +x ${local.dst_scripts_dir}/swpm_install.sh",
+      "${local.dst_scripts_dir}/swpm_install.sh"
     ]
   }
 }
