@@ -181,7 +181,7 @@ module "cos_sap_download" {
 module "ansible_s4hana_bw4hana" {
 
   source     = "./submodules/ansible_sap_s4hana_bw4hana"
-  depends_on = [module.cos_sap_download, module.sap_hana_instance, module.sap_netweaver_instance]
+  depends_on = [module.cos_sap_download, module.sap_hana_instance, module.sap_netweaver_instance, module.instance_init]
   count      = var.ansible_sap_solution["enable"] && contains(["s4hana", "bw4hana"], var.ansible_sap_solution["solution"]) ? 1 : 0
 
   access_host_or_ip     = var.access_host_or_ip
