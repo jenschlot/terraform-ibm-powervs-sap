@@ -129,8 +129,8 @@ resource "null_resource" "connect_to_mgmt_svs" {
   provisioner "file" {
 
     #### Write the variables required for ansible roles to file  ####
-
-    content = <<EOF
+    destination = local.dst_ansible_vars_connect_mgmt_svs_path
+    content     = <<EOF
 client_config : {
     squid : {
       enable : ${var.perform_proxy_client_setup["enable"]},
@@ -153,7 +153,6 @@ client_config : {
   }
 EOF
 
-    destination = local.dst_ansible_vars_connect_mgmt_svs_path
   }
 
   provisioner "file" {
@@ -196,14 +195,14 @@ resource "null_resource" "configure_os_for_sap" {
   provisioner "file" {
 
     #### Write the disks wwns and other variables required for ansible roles to file under /root/tf_configure_for_sap.yml  ####
-
-    content = <<EOF
+    estination = local.dst_ansible_vars_configure_os_for_sap_path
+    content    = <<EOF
 disks_configuration : ${jsonencode({ for key, value in var.powervs_instance_storage_configs[count.index] : key => split(",", var.powervs_instance_storage_configs[count.index][key]) })}
 sap_solution : '${var.sap_solutions[count.index]}'
 sap_domain : '${var.sap_domain}'
 EOF
 
-    destination = local.dst_ansible_vars_configure_os_for_sap_path
+
   }
 
   provisioner "file" {
