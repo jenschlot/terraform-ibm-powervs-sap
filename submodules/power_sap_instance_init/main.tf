@@ -195,8 +195,8 @@ resource "null_resource" "configure_os_for_sap" {
   provisioner "file" {
 
     #### Write the disks wwns and other variables required for ansible roles to file under /root/tf_configure_for_sap.yml  ####
-    estination = local.dst_ansible_vars_configure_os_for_sap_path
-    content    = <<EOF
+    destination = local.dst_ansible_vars_configure_os_for_sap_path
+    content     = <<EOF
 disks_configuration : ${jsonencode({ for key, value in var.powervs_instance_storage_configs[count.index] : key => split(",", var.powervs_instance_storage_configs[count.index][key]) })}
 sap_solution : '${var.sap_solutions[count.index]}'
 sap_domain : '${var.sap_domain}'
