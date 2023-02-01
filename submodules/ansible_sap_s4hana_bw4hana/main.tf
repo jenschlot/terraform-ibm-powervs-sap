@@ -11,14 +11,13 @@ locals {
   ansible_sap_hana_install_playbook_name = "sample-sap-hana-install.yml"
   ansible_sap_swpm_install_playbook_name = "sample-sap-swpm.yml"
   dst_ansible_vars_hana_path             = "${local.dst_scripts_dir}/ansible_hana_vars.yml"
-  dst_ansible_vars_swpm_path             = "${local.dst_scripts_dir}/ansible_s4hana_bw4hana_vars.ymll"
+  dst_ansible_vars_swpm_path             = "${local.dst_scripts_dir}/ansible_s4hana_bw4hana_vars.yml"
 }
 
 locals {
   nw_hostname   = var.ansible_parameters["netweaver_instance_hostname"]
   hana_hostname = var.ansible_parameters["hana_instance_hostname"]
   hana_sap_ip   = var.ansible_parameters["hana_instance_sap_ip"]
-  fqdn          = var.ansible_parameters["netweaver_ansible_vars"]["sap_swpm_fqdn"]
 }
 
 resource "null_resource" "sap_hana_install" {
@@ -82,14 +81,6 @@ resource "null_resource" "sap_nw_install" {
     timeout      = "5m"
   }
 
-  ### add HANA SAP host IP in /etc/hosts file
-  # echo sap_ip hana_hostname hana_hostname.fqdn
-  provisioner "remote-exec" {
-    inline = [
-      "grep -qxF \"${local.hana_sap_ip} ${local.hana_hostname} ${local.hana_hostname}.${local.fqdn}\" /etc/hosts || echo \"${local.hana_sap_ip} ${local.hana_hostname} ${local.hana_hostname}.${local.fqdn}\" >> /etc/hosts"
-    ]
-  }
-
   provisioner "file" {
 
     #### Write the netweaver installation variables in ansible var file ####
@@ -98,6 +89,7 @@ resource "null_resource" "sap_nw_install" {
 ${yamlencode(var.ansible_parameters["netweaver_ansible_vars"])}
 sap_swpm_ascs_instance_hostname: '${local.nw_hostname}'
 sap_swpm_db_host: '${local.hana_hostname}'
+sap_swpm_db_ip: '${local.hana_sap_ip}'
 
 EOF
 

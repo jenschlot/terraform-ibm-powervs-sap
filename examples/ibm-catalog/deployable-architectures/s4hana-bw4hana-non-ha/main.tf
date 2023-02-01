@@ -117,8 +117,8 @@ locals {
   }
 
   product_catalog_map = {
-    "s4hana"  = "NW_ABAP_OneHost:S4HANA2020.CORE.HDB.ABAP"
-    "bw4hana" = "NW_ABAP_OneHost:BW4HANA20.CORE.HDB.ABAP"
+    "s4hana"  = "NW_ABAP_OneHost:S4HANA${var.sap_solution_version}.CORE.HDB.ABAP"
+    "bw4hana" = "NW_ABAP_OneHost:BW4HANA${var.sap_solution_version}.CORE.HDB.ABAP"
   }
 
   netweaver_ansible_vars = {
@@ -139,6 +139,7 @@ locals {
     "sap_swpm_db_schema_abap"          = "SAPHANADB"
     "sap_swpm_db_schema_abap_password" = var.db_master_password
     "sap_swpm_db_sidadm_password"      = var.db_master_password
+    "sap_swpm_update_etchosts"         = true
   }
 
   ansible_sap_solution = {

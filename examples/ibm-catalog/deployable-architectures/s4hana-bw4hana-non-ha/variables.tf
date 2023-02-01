@@ -149,6 +149,15 @@ variable "sap_solution" {
   }
 }
 
+variable "sap_solution_version" {
+  description = "SAP S4HANA or BW4HANA year. Should be 4 digits like 2020, 2021 .."
+  type        = number
+  validation {
+    condition     = can(regex("^\\d{1,4}$", var.sap_solution_version)) ? true : false
+    error_message = "Solution version should be 4 digits like 2020, 2021. ."
+  }
+}
+
 variable "db_master_password" {
   description = "SAP domain to be set for entire landscape. Set to null or empty if not configuring OS."
   type        = string
