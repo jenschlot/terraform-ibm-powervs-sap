@@ -6,7 +6,7 @@
             "flavors": [
                 {
                     "label": "SAP Prepared PowerVS Instances (non HA)",
-                    "name": "Prepared System Non-HA",
+                    "name": "Prepared-System-Non-HA",
                     "working_directory": "examples/ibm-catalog/deployable-architectures/prepared-system-non-ha",
                     "usage": "TBD",
                     "compliance": {
@@ -146,7 +146,7 @@
                 },
                 {
                     "label": "SAP S4HANA/BW4HANA Solution on PowerVS Instances (non HA)",
-                    "name": "S4HANA/BW4HANA Solution Non-HA",
+                    "name": "S4HANA-BW4HANA-Solution-Non-HA",
                     "working_directory": "examples/ibm-catalog/deployable-architectures/s4hana-bw4hana-non-ha",
                     "usage": "TBD",
                     "compliance": {
