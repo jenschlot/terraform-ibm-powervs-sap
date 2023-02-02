@@ -5,10 +5,10 @@
             "label": "SAP on secure Power Virtual Servers",
             "flavors": [
                 {
-                    "label": "SAP prepared PowerVS instances (non HA)",
-                    "name": "prepared-system-non-ha",
+                    "label": "SAP Prepared PowerVS Instances (non HA)",
+                    "name": "Prepared System Non-HA",
                     "working_directory": "examples/ibm-catalog/deployable-architectures/prepared-system-non-ha",
-                    "usage": "module \"sap_systems\" {\n  source                    = \"https://cm.globalcatalog.cloud.ibm.com/api/v1-beta/offering/source//examples/ibm-catalog/prepared-system-solution?archive=tgz&kind=terraform&name=terraform-ibm-powervs-catalog-powervs-sap-infrastructure&version=1.0.5\"\n  ibmcloud_api_key          = var.ibmcloud_api_key\n  prerequisite_workspace_id = var.prerequisite_workspace_id\n  powervs_zone              = var.powervs_zone\n  prefix                    = var.prefix\n  ssh_private_key           = var.ssh_private_key\n}",
+                    "usage": "TBD",
                     "compliance": {
                         "controls": [
                             {
@@ -88,6 +88,24 @@
                     "iam_permissions": [
                         {
                             "role_crns": [
+                                "crn:v1:bluemix:public:iam::::role:Editor"
+                            ],
+                            "service_name": "is.vpc"
+                        },
+                        {
+                            "role_crns": [
+                                "crn:v1:bluemix:public:iam::::role:Editor"
+                            ],
+                            "service_name": "transit.gateway"
+                        },
+                        {
+                            "role_crns": [
+                                "crn:v1:bluemix:public:iam::::role:Editor"
+                            ],
+                            "service_name": "directlink.connect"
+                        },
+                        {
+                            "role_crns": [
                                 "crn:v1:bluemix:public:iam::::serviceRole:Manager"
                             ],
                             "service_name": "power-iaas"
@@ -106,12 +124,12 @@
                     "architecture": {
                         "features": [
                             {
-                                "description": "not installed",
-                                "title": "SAP system"
+                                "title": "SAP Solution",
+                                "description": "Not installed"
                             },
                             {
-                                "description": "1 for SAP HANA, 0,1,2,... for SAP NetWeaver, 0 or 1 for shared SAP files",
-                                "title": "PowerVS instances"
+                                "title": "PowerVS instances",
+                                "description": "SAP HANA Instance: 1\nSAP NetWeaver Instances: 0,1..N\nShared SAP Instance: 0 or 1"
                             }
                         ],
                         "diagrams": [
@@ -127,10 +145,10 @@
                     }
                 },
                 {
-                    "label": "SAP system on PowerVS instances (non HA)",
-                    "name": "s4hana-bw4hana-non-ha",
+                    "label": "SAP S4HANA/BW4HANA Solution on PowerVS Instances (non HA)",
+                    "name": "S4HANA/BW4HANA Solution Non-HA",
                     "working_directory": "examples/ibm-catalog/deployable-architectures/s4hana-bw4hana-non-ha",
-                    "usage": "module \"sap_systems\" {\n  source                    = \"https://cm.globalcatalog.cloud.ibm.com/api/v1-beta/offering/source//examples/ibm-catalog/prepared-system-solution?archive=tgz&kind=terraform&name=terraform-ibm-powervs-catalog-powervs-sap-infrastructure&version=1.0.5\"\n  ibmcloud_api_key          = var.ibmcloud_api_key\n  prerequisite_workspace_id = var.prerequisite_workspace_id\n  powervs_zone              = var.powervs_zone\n  prefix                    = var.prefix\n  ssh_private_key           = var.ssh_private_key\n}",
+                    "usage": "TBD",
                     "compliance": {
                         "controls": [
                             {
@@ -210,6 +228,24 @@
                     "iam_permissions": [
                         {
                             "role_crns": [
+                                "crn:v1:bluemix:public:iam::::role:Editor"
+                            ],
+                            "service_name": "is.vpc"
+                        },
+                        {
+                            "role_crns": [
+                                "crn:v1:bluemix:public:iam::::role:Editor"
+                            ],
+                            "service_name": "transit.gateway"
+                        },
+                        {
+                            "role_crns": [
+                                "crn:v1:bluemix:public:iam::::role:Editor"
+                            ],
+                            "service_name": "directlink.connect"
+                        },
+                        {
+                            "role_crns": [
                                 "crn:v1:bluemix:public:iam::::serviceRole:Manager"
                             ],
                             "service_name": "power-iaas"
@@ -228,22 +264,22 @@
                     "architecture": {
                         "features": [
                             {
-                                "description": "1 SAP S4/HANA system or 1 SAP BW4/HANA system or 1 SAP Solution Manager system",
-                                "title": "SAP system"
+                                "title": "SAP Solution",
+                                "description": "S4HANA or BW4HANA"
                             },
                             {
-                                "description": "1 for SAP HANA, 1 for SAP NetWeaver, 0 or 1 for shared SAP files",
-                                "title": "PowerVS instances"
+                                "title": "PowerVS instances",
+                                "description": "SAP HANA Instance: 1\nSAP NetWeaver Instance: 1"
                             }
                         ],
                         "diagrams": [
                             {
                                 "diagram": {
-                                    "caption": "Ready-to-use SAP system (non HA) in existing IBM PowerVS environment",
+                                    "caption": "Ready-to-use SAP System (non HA) in existing IBM PowerVS environment",
                                     "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-powervs-sap/s4hana/examples/ibm-catalog/deployable-architectures/s4hana-bw4hana-non-ha/architecture_diagrams/sap-on-powervs-sap-system-non-ha.svg",
                                     "type": "image/svg+xml"
                                 },
-                                "description": "'SAP system on PowerVS instances (non HA)' variation of 'SAP on secure Power Virtual Servers' creates a ready-to-use SAP system in an existing IBM PowerVS environment build on the foundation of the 'Secure infrastructure on VPC for regulated industries' and 'Power infrastructure for regulated industries'. PowerVS instances for SAP HANA, SAP NetWeaver and optionally for shared SAP files are deployed, preconfigured and SAP system is installed.\n\nServices such as DNS, NTP and NFS running in VPC and provided by 'Power infrastructure for regulated industries' are \nleveraged.\n\nRedundant IBM Cloud Connections provide the network bridge between the IBM Power infrastructure and the IBM VPC and public internet.\n\nThe resulting SAP landscape leverages the services such as Activity Tracker, Cloud Object Storage, Key Management from the 'Secure infrastructure on VPC for regulated industries' and the network connectivity configuration provided by 'Power infrastructure for regulated industries'."
+                                "description": "'SAP system on PowerVS instances (non HA)' variation of 'SAP on secure Power Virtual Servers' creates a ready-to-use SAP system in an existing IBM PowerVS environment build on the foundation of the 'Secure infrastructure on VPC for regulated industries' and 'Power infrastructure for regulated industries'. PowerVS instances for SAP HANA and SAP NetWeaver, preconfigured and SAP Solution is installed.\n\nServices such as DNS, NTP and NFS running in VPC and provided by 'Power infrastructure for regulated industries' are \nleveraged.\n\nRedundant IBM Cloud Connections provide the network bridge between the IBM Power infrastructure and the IBM VPC and public internet.\n\nThe resulting SAP landscape leverages the services such as Activity Tracker, Cloud Object Storage, Key Management from the 'Secure infrastructure on VPC for regulated industries' and the network connectivity configuration provided by 'Power infrastructure for regulated industries'."
                             }
                         ]
                     }
