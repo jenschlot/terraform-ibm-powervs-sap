@@ -2,11 +2,11 @@
 
 The PowerVS SAP system example automates the following tasks:
 
-- Creates and configures one PowerVS instance for SAP HANA that is based on best practices and install SAP HANA software.
-- Creates and configures one PowerVS instances for SAP NetWeaver that is based on best practices and install S4HANA/BW4HANA software.
-- Creates and configures one optional PowerVS instance that can be used for sharing SAP files between other system instances.
+- Creates and configures one PowerVS instance for SAP HANA that is based on best practices and install SAP HANA Database.
+- Creates and configures one PowerVS instances for SAP NetWeaver that is based on best practices and install S4HANA/BW4HANA solution.
 - Connects all created PowerVS instances to a proxy server that is specified by IP address or hostname.
-- Optionally connects all created PowerVS instances to an NTP server nd DNS forwarder that are specified by IP address or hostname.
+- Optionally Downloads the SAP software Binaries from Cloud Object Storage to the NFS path specified.
+- Optionally connects all created PowerVS instances to an NTP server and DNS forwarder that are specified by IP address or hostname.
 - Optionally configures a shared NFS directory on all created PowerVS instances. The directory is provided by an NFS server that is specified by IP address or hostname.
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
